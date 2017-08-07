@@ -13,7 +13,7 @@ class AlignData(QQuickItem):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setFlag(QQuickItem.ItemHasContents, True)
-        self._segment_count = 32
+        self._segment_count = 256
         self._p1 = QPointF(0, 0)
         self._p2 = QPointF(1, 0)
         self._p3 = QPointF(0, 1)
@@ -22,7 +22,8 @@ class AlignData(QQuickItem):
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
             node = QSGGeometryNode()
-            geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(), 32)
+            geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(),
+                                   self._segment_count)
             geometry.setLineWidth(2)
             geometry.setDrawingMode(QSGGeometry.DrawLineStrip)
             node.setGeometry(geometry)
@@ -34,6 +35,7 @@ class AlignData(QQuickItem):
         else:
             node = oldNode
             geometry = node.geometry()
+            geometry.allocate(self._segment_count)
 
         # bounds = self.boundingRect()
         vertices = geometry.vertexDataAsPoint2D()
@@ -48,10 +50,12 @@ class AlignData(QQuickItem):
                   + t * t * t * self._p4 \
 
 
-            x = 0 + pos.x() * 400 # bounds.width()
-            y = 0 + pos.y() * 400 # bounds.height()
+            x = pos.x() * self.width()
+            y = pos.y() * self.height()
 
             vertices[i].set(x, y)
+
+        node.markDirty(QSGNode.DirtyGeometry)
 
         return node
 
@@ -61,6 +65,6 @@ qmlRegisterType(AlignData, "PythonAlign", 1, 0, "AlignData")
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     engine = QQmlApplicationEngine("main.qml")
-    engine.rootObjects()[0].showFullScreen()
+    engine.rootObjects()[0].show()
 
     sys.exit(app.exec_())

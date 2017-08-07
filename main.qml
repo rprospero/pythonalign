@@ -30,8 +30,8 @@ ApplicationWindow {
 		Text{ text:"Hello"}
 		AlignData {
 		    id: alignment
-		    width: 100
-		    height: 100
+		    anchors.fill: parent
+		    antialiasing: true
 		}
 	    }
 	}
