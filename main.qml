@@ -1,6 +1,7 @@
 import QtQuick 2.1
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import PythonAlign 1.0
 
 ApplicationWindow {
     TabBar {
@@ -24,9 +25,14 @@ ApplicationWindow {
 	width: parent.width
 	Item {
 	    Rectangle {
-		color: "red"
+		color: "black"
 		anchors.fill: parent
 		Text{ text:"Hello"}
+		AlignData {
+		    id: alignment
+		    width: 100
+		    height: 100
+		}
 	    }
 	}
 	Item {
