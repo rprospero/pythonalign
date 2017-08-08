@@ -3,10 +3,10 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QUrl, pyqtProperty, pyqtSignal, pyqtSlot, QObject, QPointF
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QPixmap
 from PyQt5.QtQml import qmlRegisterType, QQmlApplicationEngine
 from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
-    QSGFlatColorMaterial
+    QSGFlatColorMaterial, QSGSimpleTextureNode
 
 
 class AlignData(QQuickItem):
@@ -19,25 +19,36 @@ class AlignData(QQuickItem):
         self._p3 = QPointF(0, 1)
         self._p4 = QPointF(1, 1)
 
+        self._pixmap = QPixmap("img.jpg")
+
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
-            node = QSGGeometryNode()
+            node3 = QSGGeometryNode()
+
+            node2 = QSGSimpleTextureNode()
+            node = QSGNode()
+            texture = self.window().createTextureFromImage(self._pixmap.toImage())
+            node2.setTexture(texture)
+            # node3.appendChildNode(node2)
+            node.appendChildNode(node3)
+
             geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(),
                                    self._segment_count)
             geometry.setLineWidth(2)
             geometry.setDrawingMode(QSGGeometry.DrawLineStrip)
-            node.setGeometry(geometry)
-            node.setFlag(QSGNode.OwnsGeometry)
+            node3.setGeometry(geometry)
+            node3.setFlag(QSGNode.OwnsGeometry)
             material = QSGFlatColorMaterial()
             material.setColor(QColor(255, 0, 0))
-            node.setMaterial(material)
-            node.setFlag(QSGNode.OwnsMaterial)
+            node3.setMaterial(material)
+            node3.setFlag(QSGNode.OwnsMaterial)
+            print("New node!")
         else:
             node = oldNode
-            geometry = node.geometry()
+            geometry = node.firstChild().geometry()
             geometry.allocate(self._segment_count)
+            print("Old Node!")
 
-        # bounds = self.boundingRect()
         vertices = geometry.vertexDataAsPoint2D()
 
         for i in range(self._segment_count):
@@ -55,7 +66,7 @@ class AlignData(QQuickItem):
 
             vertices[i].set(x, y)
 
-        node.markDirty(QSGNode.DirtyGeometry)
+        node.firstChild().markDirty(QSGNode.DirtyGeometry)
 
         return node
 
