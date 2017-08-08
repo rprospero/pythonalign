@@ -40,13 +40,18 @@ ApplicationWindow {
 	    Rectangle {
 		id: twisted
 		color: "green"
+		clip: true
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
 		width: parent.width/2
 		Text{ text:"world"}
-		AlignData {
-		    anchors.fill: parent
+		Item {
+		    Image {
+			source: "./img.jpg"
+			transform: Rotation {origin.x: 256; origin.y:256; angle: 45}
+		    }
+		    transform: Scale {origin.x: 256; origin.y:256; xScale: 2; yScale: 2}
 		}
 	    }
 	}
