@@ -24,14 +24,29 @@ ApplicationWindow {
 	anchors.bottom: parent.bottom
 	width: parent.width
 	Item {
-	    Rectangle {
-		color: "black"
-		anchors.fill: parent
+	    Image {
+		id: original
+		source: "./img.jpg"
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		anchors.left: anchors.right
+		width: parent.width/2
 		Text{ text:"Hello"}
 		AlignData {
 		    id: alignment
 		    anchors.fill: parent
-		    antialiasing: true
+		}
+	    }
+	    Rectangle {
+		id: twisted
+		color: "green"
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		width: parent.width/2
+		Text{ text:"world"}
+		AlignData {
+		    anchors.fill: parent
 		}
 	    }
 	}
