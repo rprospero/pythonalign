@@ -20,6 +20,27 @@ class AlignData(QQuickItem):
 
         self._pixmap = QPixmap("img.jpg")
 
+    @pyqtSlot(float, float)
+    def select(self, x, y):
+        d1 = (self._p1.x()-x)**2+(self._p1.y()-y)**2
+        d2 = (self._p2.x()-x)**2+(self._p2.y()-y)**2
+        d3 = (self._p3.x()-x)**2+(self._p3.y()-y)**2
+        d4 = (self._p4.x()-x)**2+(self._p4.y()-y)**2
+        print(d1, d2, d3, d4)
+        if d1<d2 and d1<d3 and d1<d4:
+            self._p1.setX(x)
+            self._p1.setY(y)
+        elif d2<d3 and d2<d4:
+            self._p2.setX(x)
+            self._p2.setY(y)
+        elif d3<d4:
+            self._p3.setX(x)
+            self._p3.setY(y)
+        else:
+            self._p4.setX(x)
+            self._p4.setY(y)
+        self.update()
+
     @pyqtProperty('QPointF')
     def p1(self): return self._p1
     @p1.setter

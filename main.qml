@@ -40,9 +40,11 @@ ApplicationWindow {
 		    p4: Qt.point(0.1, 0.9)
 		    MouseArea {
 			anchors.fill: parent
-			onPressed: {
-			    alignment.p1.x = mouse.x/width;
-			    alignment.p1.y = mouse.y/height;
+			hoverEnabled: true
+			onPositionChanged: {
+			    if(mouse.buttons != 0){
+				alignment.select(mouse.x/width, mouse.y/height)
+			    }
 			}
 		    }
 		}
