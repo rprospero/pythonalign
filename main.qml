@@ -35,6 +35,10 @@ ApplicationWindow {
 		AlignData {
 		    id: alignment
 		    anchors.fill: parent
+		    p1: Qt.point(0.1, 0.1)
+		    p2: Qt.point(0.9, 0.1)
+		    p3: Qt.point(0.9, 0.9)
+		    p4: Qt.point(0.1, 0.9)
 		}
 	    }
 	    Rectangle {

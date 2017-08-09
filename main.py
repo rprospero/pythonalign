@@ -20,6 +20,23 @@ class AlignData(QQuickItem):
 
         self._pixmap = QPixmap("img.jpg")
 
+    @pyqtProperty('QPointF')
+    def p1(self): return self._p1
+    @p1.setter
+    def p1(self, p): self._p1 = p
+    @pyqtProperty('QPointF')
+    def p2(self): return self._p2
+    @p2.setter
+    def p2(self, p): self._p2 = p
+    @pyqtProperty('QPointF')
+    def p3(self): return self._p3
+    @p3.setter
+    def p3(self, p): self._p3 = p
+    @pyqtProperty('QPointF')
+    def p4(self): return self._p4
+    @p4.setter
+    def p4(self, p): self._p4 = p
+
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
             node3 = QSGGeometryNode()
@@ -28,7 +45,6 @@ class AlignData(QQuickItem):
             node = QSGNode()
             texture = self.window().createTextureFromImage(self._pixmap.toImage())
             node2.setTexture(texture)
-            # node3.appendChildNode(node2)
             node.appendChildNode(node3)
 
             geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(), 5)
