@@ -23,19 +23,19 @@ class AlignData(QQuickItem):
     @pyqtProperty('QPointF')
     def p1(self): return self._p1
     @p1.setter
-    def p1(self, p): self._p1 = p
+    def p1(self, p): self._p1 = p; self.update()
     @pyqtProperty('QPointF')
     def p2(self): return self._p2
     @p2.setter
-    def p2(self, p): self._p2 = p
+    def p2(self, p): self._p2 = p; self.update()
     @pyqtProperty('QPointF')
     def p3(self): return self._p3
     @p3.setter
-    def p3(self, p): self._p3 = p
+    def p3(self, p): self._p3 = p; self.update()
     @pyqtProperty('QPointF')
     def p4(self): return self._p4
     @p4.setter
-    def p4(self, p): self._p4 = p
+    def p4(self, p): self._p4 = p; self.update()
 
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
@@ -56,12 +56,10 @@ class AlignData(QQuickItem):
             material.setColor(QColor(255, 0, 0))
             node3.setMaterial(material)
             node3.setFlag(QSGNode.OwnsMaterial)
-            print("New node!")
         else:
             node = oldNode
             geometry = node.firstChild().geometry()
             geometry.allocate(5)
-            print("Old Node!")
 
         vertices = geometry.vertexDataAsPoint2D()
 

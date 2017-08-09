@@ -31,7 +31,6 @@ ApplicationWindow {
 		anchors.bottom: parent.bottom
 		anchors.left: anchors.right
 		width: parent.width/2
-		Text{ text:"Hello"}
 		AlignData {
 		    id: alignment
 		    anchors.fill: parent
@@ -39,6 +38,13 @@ ApplicationWindow {
 		    p2: Qt.point(0.9, 0.1)
 		    p3: Qt.point(0.9, 0.9)
 		    p4: Qt.point(0.1, 0.9)
+		    MouseArea {
+			anchors.fill: parent
+			onPressed: {
+			    alignment.p1.x = mouse.x/width;
+			    alignment.p1.y = mouse.y/height;
+			}
+		    }
 		}
 	    }
 	    Rectangle {
