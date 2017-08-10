@@ -36,6 +36,8 @@ ApplicationWindow {
 		    anchors.fill: parent
 		    onRealigned: {
 			turn.angle = alignment.angle
+			sizer.xScale = alignment.scale
+			sizer.yScale = alignment.scale
 		    }
 		    p1: Qt.point(0.1, 0.1)
 		    p2: Qt.point(0.9, 0.1)
@@ -68,7 +70,8 @@ ApplicationWindow {
 			transform: Rotation {
 			    id: turn; origin.x: 256; origin.y:256; angle: alignment.angle}
 		    }
-		    transform: Scale {origin.x: 256; origin.y:256; xScale: 2; yScale: 2}
+		    transform: Scale {
+			id: sizer; origin.x: 256; origin.y:256; xScale: 1; yScale: 1}
 		}
 	    }
 	}
