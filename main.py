@@ -61,11 +61,18 @@ class AlignData(QQuickItem):
     @p4.setter
     def p4(self, p): self._p4 = p; self.update()
 
+    def _hangle(self, b, a):
+        dx = b.x() - a.x()
+        dy = b.y() - a.y()
+        return 180*np.arctan2(dy, dx)/np.pi
+
     @pyqtProperty('qreal', notify=realigned)
     def angle(self):
-        dx = self._p2.x() - self._p1.x()
-        dy = self._p2.y() - self._p1.y()
-        return 180*np.arctan2(dy, dx)/np.pi
+        a = self._hangle(self._p2, self._p1)
+        b = self._hangle(self._p3, self._p4)
+        c = self._hangle(self._p3, self._p2)-90
+        d = 90+self._hangle(self._p1, self._p4)
+        return -(a+b+c+d)/4
 
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
