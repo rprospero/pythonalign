@@ -34,6 +34,9 @@ ApplicationWindow {
 		AlignData {
 		    id: alignment
 		    anchors.fill: parent
+		    onRealigned: {
+			turn.angle = alignment.angle
+		    }
 		    p1: Qt.point(0.1, 0.1)
 		    p2: Qt.point(0.9, 0.1)
 		    p3: Qt.point(0.9, 0.9)
@@ -62,7 +65,8 @@ ApplicationWindow {
 		Item {
 		    Image {
 			source: "./img.jpg"
-			transform: Rotation {origin.x: 256; origin.y:256; angle: 45}
+			transform: Rotation {
+			    id: turn; origin.x: 256; origin.y:256; angle: alignment.angle}
 		    }
 		    transform: Scale {origin.x: 256; origin.y:256; xScale: 2; yScale: 2}
 		}

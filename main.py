@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import numpy as np
 import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QUrl, pyqtProperty, pyqtSignal, pyqtSlot, QObject, QPointF
@@ -26,7 +27,6 @@ class AlignData(QQuickItem):
         d2 = (self._p2.x()-x)**2+(self._p2.y()-y)**2
         d3 = (self._p3.x()-x)**2+(self._p3.y()-y)**2
         d4 = (self._p4.x()-x)**2+(self._p4.y()-y)**2
-        print(d1, d2, d3, d4)
         if d1<d2 and d1<d3 and d1<d4:
             self._p1.setX(x)
             self._p1.setY(y)
@@ -39,9 +39,12 @@ class AlignData(QQuickItem):
         else:
             self._p4.setX(x)
             self._p4.setY(y)
+        self.realigned.emit()
         self.update()
 
-    @pyqtProperty('QPointF')
+    realigned = pyqtSignal()
+
+    @pyqtProperty('QPointF', notify=realigned)
     def p1(self): return self._p1
     @p1.setter
     def p1(self, p): self._p1 = p; self.update()
@@ -57,6 +60,12 @@ class AlignData(QQuickItem):
     def p4(self): return self._p4
     @p4.setter
     def p4(self, p): self._p4 = p; self.update()
+
+    @pyqtProperty('qreal', notify=realigned)
+    def angle(self):
+        dx = self._p2.x() - self._p1.x()
+        dy = self._p2.y() - self._p1.y()
+        return 180*np.arctan2(dy, dx)/np.pi
 
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
