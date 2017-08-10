@@ -41,6 +41,7 @@ ApplicationWindow {
 		    MouseArea {
 			anchors.fill: parent
 			hoverEnabled: true
+			onPressed: alignment.select(mouse.x/width, mouse.y/height);
 			onPositionChanged: {
 			    if(mouse.buttons != 0){
 				alignment.select(mouse.x/width, mouse.y/height)
