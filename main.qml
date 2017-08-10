@@ -65,13 +65,20 @@ ApplicationWindow {
 		width: parent.width/2
 		Text{ text:"world"}
 		Item {
+		    anchors.horizontalCenter: parent.horizontalCenter
+		    anchors.verticalCenter: parent.verticalCenter
 		    Image {
+			id: ref
 			source: "./img.jpg"
+			anchors.horizontalCenter: parent.horizontalCenter
+			anchors.verticalCenter: parent.verticalCenter
 			transform: Rotation {
-			    id: turn; origin.x: 256; origin.y:256; angle: alignment.angle}
+			    id: turn; origin.x: parent.horizontalCenter;
+			    origin.y:parent.verticalCenter; angle: alignment.angle}
 		    }
 		    transform: Scale {
-			id: sizer; origin.x: 256; origin.y:256; xScale: 1; yScale: 1}
+			id: sizer; origin.x: ref.horizontalCenter;
+			origin.y:ref.verticalCenter; xScale: 1; yScale: 1}
 		}
 	    }
 	}
