@@ -92,11 +92,7 @@ class AlignData(QQuickItem):
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
             node3 = QSGGeometryNode()
-
-            node2 = QSGSimpleTextureNode()
             node = QSGNode()
-            texture = self.window().createTextureFromImage(self._pixmap.toImage())
-            node2.setTexture(texture)
             node.appendChildNode(node3)
 
             geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(), 5)
