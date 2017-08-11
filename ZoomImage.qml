@@ -9,7 +9,6 @@ Rectangle {
     property point translation
     property real imgWidth
     property real imgHeight
-    color: "green"
     clip: true
     Item {
 	anchors.horizontalCenter: parent.horizontalCenter
