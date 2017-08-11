@@ -35,9 +35,10 @@ ApplicationWindow {
 		    id: alignment
 		    anchors.fill: parent
 		    onRealigned: {
-			turn.angle = alignment.angle
-			sizer.xScale = alignment.scale
-			sizer.yScale = alignment.scale
+			twisted.angle = alignment.angle
+			twisted.scale = alignment.scale
+			canvas.angle = alignment.angle
+			canvas.scale = alignment.scale
 		    }
 		    p1: Qt.point(0.1, 0.1)
 		    p2: Qt.point(0.9, 0.1)
@@ -55,39 +56,22 @@ ApplicationWindow {
 		    }
 		}
 	    }
-	    Rectangle {
+	    ZoomImage {
 		id: twisted
-		color: "green"
-		clip: true
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
 		width: parent.width/2
-		Text{ text:"world"}
-		Item {
-		    anchors.horizontalCenter: parent.horizontalCenter
-		    anchors.verticalCenter: parent.verticalCenter
-		    Image {
-			id: ref
-			width: original.width
-			height: original.height
-			source: "./img.jpg"
-			anchors.horizontalCenter: parent.horizontalCenter
-			anchors.verticalCenter: parent.verticalCenter
-			transform: Rotation {
-			    id: turn; origin.x: parent.horizontalCenter;
-			    origin.y:parent.verticalCenter; angle: alignment.angle}
-		    }
-		    transform: Scale {
-			id: sizer; origin.x: ref.horizontalCenter;
-			origin.y:ref.verticalCenter; xScale: 1; yScale: 1}
-		}
+		imgWidth: original.width
+		imgHeight: original.height
 	    }
 	}
 	Item {
-	    Rectangle {
-		color: "green"
+	    ZoomImage {
+		id: canvas
 		anchors.fill: parent
+		imgWidth: original.width
+		imgHeight: original.height
 	    }
 	}
 	Item {
