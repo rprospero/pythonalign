@@ -79,6 +79,19 @@ ApplicationWindow {
 		imgWidth: original.width
 		imgHeight: original.height
 	    }
+	    ListView {
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		width: parent.width/2
+		model: ListModel {
+		    ListElement {start: 0; stop:1}
+		    ListElement {start: 0.2; stop: 0.8}
+		}
+		delegate: Text {
+		    text: "Start " + start + " Stop " + stop
+		}
+	    }
 	}
 	Item {
 	    Rectangle {
