@@ -30,6 +30,7 @@ ApplicationWindow {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.left: anchors.right
+		fillMode: Image.PreserveAspectFit
 		width: parent.width/2
 		AlignData {
 		    id: alignment

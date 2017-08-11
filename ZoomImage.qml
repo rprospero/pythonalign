@@ -18,6 +18,7 @@ Rectangle {
 	    width: imgWidth
 	    height: imgHeight
 	    source: "./img.jpg"
+	    fillMode: Image.PreserveAspectFit
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    anchors.verticalCenter: parent.verticalCenter
 	    transform: Rotation {
