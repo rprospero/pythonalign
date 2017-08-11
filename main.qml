@@ -72,7 +72,10 @@ ApplicationWindow {
 	Item {
 	    ZoomImage {
 		id: canvas
-		anchors.fill: parent
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		anchors.left: parent.left
+		width: parent.width/2
 		imgWidth: original.width
 		imgHeight: original.height
 	    }
