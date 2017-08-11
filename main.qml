@@ -69,6 +69,8 @@ ApplicationWindow {
 		    anchors.verticalCenter: parent.verticalCenter
 		    Image {
 			id: ref
+			width: original.width
+			height: original.height
 			source: "./img.jpg"
 			anchors.horizontalCenter: parent.horizontalCenter
 			anchors.verticalCenter: parent.verticalCenter
