@@ -36,10 +36,12 @@ ApplicationWindow {
 		    id: alignment
 		    anchors.fill: parent
 		    onRealigned: {
-			twisted.angle = alignment.angle
-			twisted.scale = alignment.scale
-			canvas.angle = alignment.angle
-			canvas.scale = alignment.scale
+			twisted.angle = alignment.angle;
+			twisted.scale = alignment.scale;
+			twisted.translation = alignment.translate;
+			canvas.angle = alignment.angle;
+			canvas.scale = alignment.scale;
+			canvas.translation = alignment.translate;
 		    }
 		    p1: Qt.point(0.1, 0.1)
 		    p2: Qt.point(0.9, 0.1)

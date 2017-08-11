@@ -6,6 +6,7 @@ Rectangle {
     id: base
     property real scale
     property real angle
+    property point translation
     property real imgWidth
     property real imgHeight
     color: "green"
@@ -13,17 +14,26 @@ Rectangle {
     Item {
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.verticalCenter: parent.verticalCenter
-	Image {
-	    id: ref
-	    width: imgWidth
-	    height: imgHeight
-	    source: "./img.jpg"
-	    fillMode: Image.PreserveAspectFit
+	Item {
 	    anchors.horizontalCenter: parent.horizontalCenter
 	    anchors.verticalCenter: parent.verticalCenter
+	    Image {
+		id: ref
+		width: imgWidth
+		height: imgHeight
+		source: "./img.jpg"
+		fillMode: Image.PreserveAspectFit
+		anchors.horizontalCenter: parent.horizontalCenter
+		anchors.verticalCenter: parent.verticalCenter
+		transform: Translate {
+		    x:translation.x * imgHeight;
+		    y:translation.y * imgWidth;
+		}
+	    }
 	    transform: Rotation {
 		id: turn; origin.x: parent.horizontalCenter;
-		origin.y:parent.verticalCenter; angle: base.angle}
+		origin.y:parent.verticalCenter; angle: base.angle
+	    }
 	}
 	transform: Scale {
 	    id: sizer;

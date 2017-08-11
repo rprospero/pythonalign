@@ -86,6 +86,12 @@ class AlignData(QQuickItem):
                       (self._p3.y()-self._p1.y()))
         return 1.0/np.sqrt(first-second)
 
+    @pyqtProperty('QPointF', notify=realigned)
+    def translate(self):
+        base = self._p1+self._p2+self._p3+self._p4
+        base /= 4
+        return QPointF(0.5, 0.5) - base
+
     def updatePaintNode(self, oldNode, _):
         if not oldNode:
             node3 = QSGGeometryNode()
