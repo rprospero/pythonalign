@@ -74,17 +74,18 @@ class AlignData(QQuickItem):
         d = 90+self._hangle(self._p1, self._p4)
         return -(a+b+c+d)/4
 
-    @pyqtProperty('qreal', notify=realigned)
+    @pyqtProperty('QPointF', notify=realigned)
     def scale(self):
-        first = 0.5*((self._p1.x()-self._p3.x()) *
-                     (self._p2.y()-self._p1.y()) -
-                     (self._p1.x()-self._p2.x()) *
-                     (self._p3.y()-self._p1.y()))
-        second = 0.5*((self._p1.x()-self._p3.x()) *
-                      (self._p4.y()-self._p1.y()) -
-                      (self._p1.x()-self._p4.x()) *
-                      (self._p3.y()-self._p1.y()))
-        return 1.0/np.sqrt(first-second)
+        x = (np.sqrt((self._p2.x()-self._p1.x())**2+
+               (self._p2.y()-self._p1.y())**2) +
+             np.sqrt((self._p4.x()-self._p3.x())**2+
+               (self._p4.y()-self._p3.y())**2))/2
+        y = (np.sqrt((self._p2.x()-self._p3.x())**2+
+               (self._p2.y()-self._p3.y())**2) +
+             np.sqrt((self._p4.x()-self._p1.x())**2+
+               (self._p4.y()-self._p1.y())**2))/2
+        return QPointF(1.0/x, 1.0/y)
+
 
     @pyqtProperty('QPointF', notify=realigned)
     def translate(self):

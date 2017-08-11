@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: base
-    property real scale
+    property point scale
     property real angle
     property point translation
     property real imgWidth
@@ -38,8 +38,8 @@ Rectangle {
 	    id: sizer;
 	    origin.x: ref.horizontalCenter;
 	    origin.y: ref.verticalCenter;
-	    xScale: base.scale;
-	    yScale: base.scale;
+	    xScale: base.scale.x;
+	    yScale: base.scale.y;
 	}
     }
 }
