@@ -85,11 +85,37 @@ ApplicationWindow {
 		anchors.right: parent.right
 		width: parent.width/2
 		model: ListModel {
-		    ListElement {start: 0; stop:1}
-		    ListElement {start: 0.2; stop: 0.8}
+		    ListElement {
+			startx: 0; starty: 0;
+			stopx: 1; stopy: 1;
+			index: 0;
+		    }
+		    ListElement {
+			startx: 0.2; starty: 0.9;
+			stopx: 0.8; stopy: 0.1;
+			index: 1;
+		    }
 		}
-		delegate: Text {
-		    text: "Start " + start + " Stop " + stop
+		delegate: Row {
+		    Text {
+			width: 50
+			text: startx
+		    }
+		    Text {
+			width: 50
+			text: starty
+		    }
+		    Text {
+			width: 50
+			text: stopx
+		    }
+		    Text {
+			width: 50
+			text: stopy
+		    }
+		    Button {
+			text: "Delete"
+		    }
 		}
 	    }
 	}
