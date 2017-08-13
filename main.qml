@@ -124,19 +124,19 @@ ApplicationWindow {
 		delegate: Row {
 		    Text {
 			width: 150
-			text: startx
+			text: startx.toFixed(2)
 		    }
 		    Text {
 			width: 150
-			text: starty
+			text: starty.toFixed(2)
 		    }
 		    Text {
 			width: 150
-			text: stopx
+			text: stopx.toFixed(2)
 		    }
 		    Text {
 			width: 150
-			text: stopy
+			text: stopy.toFixed(2)
 		    }
 		    Button {
 			text: "Delete"
