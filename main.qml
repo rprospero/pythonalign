@@ -78,6 +78,32 @@ ApplicationWindow {
 		width: parent.width/2
 		imgWidth: original.width
 		imgHeight: original.height
+		MouseArea {
+		    anchors.fill: parent
+		    hoverEnabled: true
+		    onPressed: runmodels.append(
+			{
+			    "stopx": 0.5,
+			    "stopy": 0.5,
+			    "startx": mouse.x/width,
+			    "starty":mouse.y/height
+			}
+		    )
+		    onPositionChanged: {
+			if(mouse.buttons != 0){
+			    runmodels.setProperty(
+				runmodels.count - 1,
+				"stopx",
+				mouse.x/width
+			    )
+			    runmodels.setProperty(
+				runmodels.count - 1,
+				"stopy",
+				mouse.y/height
+			    )
+			}
+		    }
+		}
 	    }
 	    ListView {
 		anchors.top: parent.top
@@ -85,6 +111,7 @@ ApplicationWindow {
 		anchors.right: parent.right
 		width: parent.width/2
 		model: ListModel {
+		    id: runmodels
 		    ListElement {
 			startx: 0; starty: 0;
 			stopx: 1; stopy: 1;
@@ -98,19 +125,19 @@ ApplicationWindow {
 		}
 		delegate: Row {
 		    Text {
-			width: 50
+			width: 150
 			text: startx
 		    }
 		    Text {
-			width: 50
+			width: 150
 			text: starty
 		    }
 		    Text {
-			width: 50
+			width: 150
 			text: stopx
 		    }
 		    Text {
-			width: 50
+			width: 150
 			text: stopy
 		    }
 		    Button {
