@@ -115,12 +115,10 @@ ApplicationWindow {
 		    ListElement {
 			startx: 0; starty: 0;
 			stopx: 1; stopy: 1;
-			index: 0;
 		    }
 		    ListElement {
 			startx: 0.2; starty: 0.9;
 			stopx: 0.8; stopy: 0.1;
-			index: 1;
 		    }
 		}
 		delegate: Row {
@@ -142,6 +140,9 @@ ApplicationWindow {
 		    }
 		    Button {
 			text: "Delete"
+			onClicked: {
+			    runmodels.remove(index)
+			}
 		    }
 		}
 	    }
