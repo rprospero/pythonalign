@@ -39,9 +39,9 @@ ApplicationWindow {
 			twisted.angle = alignment.angle;
 			twisted.scale = alignment.scale;
 			twisted.translation = alignment.translate;
-			canvas.angle = alignment.angle;
-			canvas.scale = alignment.scale;
-			canvas.translation = alignment.translate;
+			canvas_image.angle = alignment.angle;
+			canvas_image.scale = alignment.scale;
+			canvas_image.translation = alignment.translate;
 		    }
 		    p1: Qt.point(0.1, 0.1)
 		    p2: Qt.point(0.9, 0.1)
@@ -71,13 +71,33 @@ ApplicationWindow {
 	}
 	Item {
 	    ZoomImage {
-		id: canvas
+		id: canvas_image
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.left: parent.left
 		width: parent.width/2
 		imgWidth: original.width
 		imgHeight: original.height
+		Canvas {
+		    id: canvas
+		    anchors.fill: parent
+		    onPaint: {
+			var ctx = getContext("2d")
+			ctx.reset()
+
+			ctx.lineWidth = 2;
+			ctx.strokeStyle = "red"
+			ctx.beginPath()
+			for(var i=0;i<runmodels.count;i++) {
+			    ctx.moveTo(runmodels.get(i).startx*canvas.width,
+				       runmodels.get(i).starty*canvas.height)
+			    ctx.lineTo(runmodels.get(i).stopx*canvas.width,
+				       runmodels.get(i).stopy*canvas.height)
+			}
+			//ctx.closePath()
+			ctx.stroke()
+		    }
+		}
 		MouseArea {
 		    anchors.fill: parent
 		    hoverEnabled: true
@@ -101,6 +121,7 @@ ApplicationWindow {
 				"stopy",
 				mouse.y/height
 			    )
+			    canvas.requestPaint()
 			}
 		    }
 		}
@@ -141,7 +162,8 @@ ApplicationWindow {
 		    Button {
 			text: "Delete"
 			onClicked: {
-			    runmodels.remove(index)
+			    runmodels.remove(index);
+			    canvas.requestPaint()
 			}
 		    }
 		}
