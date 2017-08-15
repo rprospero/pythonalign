@@ -143,23 +143,25 @@ ApplicationWindow {
 		    }
 		}
 		delegate: Row {
+		    width: parent.width
 		    Text {
-			width: 150
+			width: parent.width/5;
 			text: startx.toFixed(2)
 		    }
 		    Text {
-			width: 150
+			width: parent.width/5;
 			text: starty.toFixed(2)
 		    }
 		    Text {
-			width: 150
+			width: parent.width/5;
 			text: stopx.toFixed(2)
 		    }
 		    Text {
-			width: 150
+			width: parent.width/5;
 			text: stopy.toFixed(2)
 		    }
 		    Button {
+			width: parent.width/5;
 			text: "Delete"
 			onClicked: {
 			    runmodels.remove(index);
