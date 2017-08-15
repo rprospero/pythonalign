@@ -144,21 +144,37 @@ ApplicationWindow {
 		}
 		delegate: Row {
 		    width: parent.width
-		    Text {
+		    TextField {
 			width: parent.width/5;
-			text: startx.toFixed(2)
+			text: startx
+			onTextEdited: {
+			    startx = text;
+			    canvas.requestPaint()
+			}
 		    }
-		    Text {
+		    TextField {
 			width: parent.width/5;
-			text: starty.toFixed(2)
+			text: starty
+			onTextEdited: {
+			    starty = text;
+			    canvas.requestPaint()
+			}
 		    }
-		    Text {
+		    TextField {
 			width: parent.width/5;
-			text: stopx.toFixed(2)
+			text: stopx
+			onTextEdited: {
+			    stopx = text;
+			    canvas.requestPaint()
+			}
 		    }
-		    Text {
+		    TextField {
 			width: parent.width/5;
-			text: stopy.toFixed(2)
+			text: stopy
+			onTextEdited: {
+			    stopy = text;
+			    canvas.requestPaint()
+			}
 		    }
 		    Button {
 			width: parent.width/5;
