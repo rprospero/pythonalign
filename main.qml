@@ -88,11 +88,12 @@ ApplicationWindow {
 			ctx.lineWidth = 2;
 			ctx.strokeStyle = "red"
 			ctx.beginPath()
-			for(var i=0;i<runmodels.count;i++) {
-			    ctx.moveTo(runmodels.get(i).startx*canvas.width,
-				       runmodels.get(i).starty*canvas.height)
-			    ctx.lineTo(runmodels.get(i).stopx*canvas.width,
-				       runmodels.get(i).stopy*canvas.height)
+			for(var i=0;i<runmodels.runs.count;i++) {
+			    console.log(runmodels.runs.count)
+			    ctx.moveTo(runmodels.runs.get(i).startx*canvas.width,
+				       runmodels.runs.get(i).starty*canvas.height)
+			    ctx.lineTo(runmodels.runs.get(i).stopx*canvas.width,
+				       runmodels.runs.get(i).stopy*canvas.height)
 			}
 			//ctx.closePath()
 			ctx.stroke()
@@ -101,10 +102,9 @@ ApplicationWindow {
 		MouseArea {
 		    anchors.fill: parent
 		    hoverEnabled: true
-		    onPressed: runmodels.append(0.5, 0.5, mouse.x/width, mouse.y/height)
+		    onPressed: runmodels.runs.push(SingleRun(mouse.x/width, mouse.y/height, 0.5, 0.5))
 		    onPositionChanged: {
 			if(mouse.buttons != 0){
-			    runmodels.update(mouse.x/width, mouse.y/height)
 			    canvas.requestPaint()
 			}
 		    }
@@ -112,6 +112,20 @@ ApplicationWindow {
 	    }
 	    RunModel {
 		id: runmodels
+		runs: [
+		    SingleRun {
+			startx: 0;
+			stopx: 0;
+			starty: 1;
+			stopy: 1;
+		    },
+		    SingleRun {
+			startx: 1;
+			stopx: 1;
+			starty: 0;
+			stopy: 0;
+		    }
+		]
 	    }
 	    ListView {
 		anchors.top: parent.top
@@ -125,7 +139,7 @@ ApplicationWindow {
 			width: parent.width/5;
 			text: startx
 			onTextEdited: {
-			    startx = text;
+			    startx = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
@@ -157,7 +171,7 @@ ApplicationWindow {
 			width: parent.width/5;
 			text: "Delete"
 			onClicked: {
-			    runmodels.remove(index);
+			    runmodels.runs.remove(index);
 			    canvas.requestPaint()
 			}
 		    }
