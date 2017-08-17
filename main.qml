@@ -101,22 +101,15 @@ ApplicationWindow {
 		MouseArea {
 		    anchors.fill: parent
 		    hoverEnabled: true
-		    onPressed: runmodels.append(
-			{
-			    "stopx": 0.5,
-			    "stopy": 0.5,
-			    "startx": mouse.x/width,
-			    "starty":mouse.y/height
-			}
-		    )
+		    onPressed: runmodels.append(0.5, 0.5, mouse.x/width, mouse.y/height)
 		    onPositionChanged: {
 			if(mouse.buttons != 0){
-			    runmodels.setProperty(
+			    runmodels.runs.setProperty(
 				runmodels.count - 1,
 				"stopx",
 				mouse.x/width
 			    )
-			    runmodels.setProperty(
+			    runmodels.runs.setProperty(
 				runmodels.count - 1,
 				"stopy",
 				mouse.y/height
@@ -126,22 +119,15 @@ ApplicationWindow {
 		    }
 		}
 	    }
+	    RunModel {
+		id: runmodels
+	    }
 	    ListView {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
 		width: parent.width/2
-		model: ListModel {
-		    id: runmodels
-		    ListElement {
-			startx: 0; starty: 0;
-			stopx: 1; stopy: 1;
-		    }
-		    ListElement {
-			startx: 0.2; starty: 0.9;
-			stopx: 0.8; stopy: 0.1;
-		    }
-		}
+		model: runmodels.runs
 		delegate: Row {
 		    width: parent.width
 		    TextField {

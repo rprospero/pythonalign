@@ -3,6 +3,7 @@
 import numpy as np
 import sys
 import AlignData
+import RunModel
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtQml import QQmlApplicationEngine
 
