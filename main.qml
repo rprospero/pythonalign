@@ -104,16 +104,7 @@ ApplicationWindow {
 		    onPressed: runmodels.append(0.5, 0.5, mouse.x/width, mouse.y/height)
 		    onPositionChanged: {
 			if(mouse.buttons != 0){
-			    runmodels.runs.setProperty(
-				runmodels.count - 1,
-				"stopx",
-				mouse.x/width
-			    )
-			    runmodels.runs.setProperty(
-				runmodels.count - 1,
-				"stopy",
-				mouse.y/height
-			    )
+			    runmodels.update(mouse.x/width, mouse.y/height)
 			    canvas.requestPaint()
 			}
 		    }
