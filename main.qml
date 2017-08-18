@@ -112,7 +112,6 @@ ApplicationWindow {
 	    }
 	    RunModel {
 		id: runmodels
-		onDataChanged: console.log(topLeft)
 	    }
 	    ListView {
 		anchors.top: parent.top

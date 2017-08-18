@@ -7,8 +7,8 @@ from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
 
 
 class SingleRun(QObject):
-    def __init__(self, startx=0, starty=0, stopx=1, stopy=1):
-        super(SingleRun, self).__init__()
+    def __init__(self, parent, startx=0, starty=0, stopx=1, stopy=1):
+        super(SingleRun, self).__init__(parent)
         self._startx = startx
         self._starty = starty
         self._stopx = stopx
@@ -72,19 +72,17 @@ class RunModel(QAbstractListModel):
 
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
-        self._runs = [SingleRun(0, 0, 1, 1),
-                      SingleRun(0.1, 0.9, 0.9, 0.1)]
+        self._runs = [SingleRun(self, 0, 0, 1, 1),
+                      SingleRun(self, 0.1, 0.9, 0.9, 0.1)]
 
     @pyqtProperty(int)
     def count(self):
         return len(self._runs)
 
     def rowCount(self, index=QModelIndex()):
-        print("Row Count")
         return len(self._runs)
 
     def data(self, index, role=Qt.DisplayRole):
-        print("Data")
         if not index.isValid():
             return QVariant()
         run = self._runs[index.row()]
@@ -124,13 +122,12 @@ class RunModel(QAbstractListModel):
 
     @pyqtSlot(float, float, float, float)
     def append(self, startx, starty, stopx, stopy):
-        r = SingleRun(startx, starty, stopx, stopy)
+        r = SingleRun(self, startx, starty, stopx, stopy)
         self.beginInsertRows(QModelIndex(),
                              len(self._runs),
                              len(self._runs))
         self._runs.append(r)
         self.endInsertRows()
-        print(self._runs)
 
     @pyqtSlot(float, float)
     def update(self, x, y):
@@ -142,8 +139,6 @@ class RunModel(QAbstractListModel):
     @pyqtSlot(int)
     def remove(self, i):
         if i >= len(self._runs):
-            print(i)
-            print(self._runs)
             return False
         self.beginRemoveRows(QModelIndex(), i, i)
         del self._runs[i]
