@@ -7,33 +7,37 @@ from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
 
 
 class SingleRun(QObject):
-    def __init__(self, parent, startx=0, starty=0, stopx=1, stopy=1):
+    def __init__(self, parent, startx=0, starty=0):
         super(SingleRun, self).__init__(parent)
-        self._startx = startx
-        self._starty = starty
-        self._stopx = stopx
-        self._stopy = stopy
+        self._x = startx
+        self._y = starty
+        self._vertical = False
+        self._length = 0
         self._selected = False
 
     startxChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=startxChanged)
     def startx(self):
-        return self._startx
+        return self._x
 
     startyChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=startyChanged)
     def starty(self):
-        return self._starty
+        return self._y
 
     stopxChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=stopxChanged)
     def stopx(self):
-        return self._stopx
+        if self._vertical:
+            return self._x
+        return self._x+self._length
 
     stopyChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=stopyChanged)
     def stopy(self):
-        return self._stopy
+        if self._vertical:
+            return self._y+self._length
+        return self._y
 
     @pyqtProperty(bool)
     def selected(self):
@@ -41,19 +45,19 @@ class SingleRun(QObject):
 
     @startx.setter
     def startx(self, x):
-        self._startx = x
+        self._x = x
+        if self._vertical:
+            self.stopxChanged.emit(x)
+        else:
+            self.stopxChanged.emit(x+self._length)
 
     @starty.setter
     def starty(self, y):
-        self._starty = y
-
-    @stopx.setter
-    def stopx(self, x):
-        self._stopx = x
-
-    @stopy.setter
-    def stopy(self, y):
-        self._stopy = y
+        self._y = y
+        if not self._vertical:
+            self.stopxChanged.emit(y)
+        else:
+            self.stopxChanged.emit(y+self._length)
 
     @selected.setter
     def selected(self, v):
@@ -69,8 +73,7 @@ class RunModel(QAbstractListModel):
 
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
-        self._runs = [SingleRun(self, 0, 0, 1, 1),
-                      SingleRun(self, 0.1, 0.9, 0.9, 0.1)]
+        self._runs = []
 
     @pyqtProperty(int)
     def count(self):
@@ -103,9 +106,9 @@ class RunModel(QAbstractListModel):
             return Qt.ItemIsEditable
         return Qt.ItemIsEnabled | Qt.ItemIsEditable
 
-    @pyqtSlot(float, float, float, float)
-    def append(self, startx, starty, stopx, stopy):
-        r = SingleRun(self, startx, starty, stopx, stopy)
+    @pyqtSlot(float, float)
+    def append(self, startx, starty):
+        r = SingleRun(self, startx, starty)
         self.beginInsertRows(QModelIndex(),
                              len(self._runs),
                              len(self._runs))
@@ -114,8 +117,14 @@ class RunModel(QAbstractListModel):
 
     @pyqtSlot(float, float)
     def update(self, x, y):
-        self._runs[-1]._stopx = x
-        self._runs[-1]._stopy = y
+        dx = x-self._runs[-1]._x
+        dy = y-self._runs[-1]._y
+        if abs(dx)>abs(dy):
+            self._runs[-1]._vertical = False
+            self._runs[-1]._length = dx
+        else:
+            self._runs[-1]._vertical = True
+            self._runs[-1]._length = dy
         i = len(self._runs) - 1
         self.dataChanged.emit(self.index(i, 0), self.index(i, 0))
 
