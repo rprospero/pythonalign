@@ -146,33 +146,33 @@ ApplicationWindow {
 		    width: parent.width
 		    TextField {
 			width: parent.width/5;
-			text: startx
+			text: startx.toFixed(4)
 			onTextEdited: {
-			    startx = text;
+			    startx = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: starty
+			text: starty.toFixed(4)
 			onTextEdited: {
-			    starty = text;
+			    starty = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: stopx
+			text: stopx.toFixed(4)
 			onTextEdited: {
-			    stopx = text;
+			    stopx = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: stopy
+			text: stopy.toFixed(4)
 			onTextEdited: {
-			    stopy = text;
+			    stopy = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
