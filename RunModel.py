@@ -56,16 +56,8 @@ class SingleRun(QObject):
 
 
 class RunModel(QAbstractListModel):
-    StartXRole = Qt.UserRole+1
-    StartYRole = Qt.UserRole+2
-    StopXRole = Qt.UserRole+3
-    StopYRole = Qt.UserRole+4
 
-    _roles = {StartXRole: b"startx",
-              StartYRole: b"starty",
-              StopXRole: b"stopx",
-              StopYRole: b"stopy"}
-
+    _roles = {Qt.DisplayRole: b"run"}
 
     def roleNames(self):
         return self._roles
@@ -86,14 +78,8 @@ class RunModel(QAbstractListModel):
         if not index.isValid():
             return QVariant()
         run = self._runs[index.row()]
-        if role == self.StartXRole:
-            return run.startx
-        elif role == self.StartYRole:
-            return run.starty
-        elif role == self.StopXRole:
-            return run.stopx
-        elif role == self.StopYRole:
-            return run.stopy
+        if role == Qt.DisplayRole:
+            return run
 
         return QVariant()
 
@@ -101,18 +87,10 @@ class RunModel(QAbstractListModel):
         if not index.isValid():
             return False
 
-        if role == self.StartXRole:
-            self._runs[index.row()].startx = value
+        if role == Qt.Edit:
+            self._runs[index.row()] = value
             return True
-        elif role == self.StartYRole:
-            self._runs[index.row()].starty = value
-            return True
-        elif role == self.StopXRole:
-            self._runs[index.row()].stopx = value
-            return True
-        elif role == self.StopYRole:
-            self._runs[index.row()].stopy = value
-            return True
+
         return False
 
     def flags(self, index):

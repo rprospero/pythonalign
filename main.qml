@@ -123,33 +123,33 @@ ApplicationWindow {
 		    width: parent.width
 		    TextField {
 			width: parent.width/5;
-			text: startx.toFixed(4)
+			text: run.startx.toFixed(4)
 			onTextEdited: {
-			    startx = parseFloat(text);
+			    run.startx = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: starty.toFixed(4)
+			text: run.starty.toFixed(4)
 			onTextEdited: {
-			    starty = parseFloat(text);
+			    run.starty = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: stopx.toFixed(4)
+			text: run.stopx.toFixed(4)
 			onTextEdited: {
-			    stopx = parseFloat(text);
+			    run.stopx = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: stopy.toFixed(4)
+			text: run.stopy.toFixed(4)
 			onTextEdited: {
-			    stopy = parseFloat(text);
+			    run.stopy = parseFloat(text);
 			    canvas.requestPaint()
 			}
 		    }
