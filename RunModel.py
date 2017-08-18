@@ -61,6 +61,10 @@ class RunModel(QAbstractListModel):
         self._runs = [SingleRun(self, 0, 0, 1, 1),
                       SingleRun(self, 0.1, 0.9, 0.9, 0.1)]
 
+    @pyqtProperty(int)
+    def count(self):
+        return len(self._runs)
+
     def rowCount(self, index=QModelIndex()):
         print("Row Count")
         return len(self._runs)
@@ -107,6 +111,10 @@ class RunModel(QAbstractListModel):
         del self._runs[i]
         self.endRemoveRows()
         return True
+
+    @pyqtSlot(int, result=SingleRun)
+    def get(self, i):
+        return self._runs[i]
 
 
 qmlRegisterType(SingleRun, "PythonAlign", 1, 0, "SingleRun")
