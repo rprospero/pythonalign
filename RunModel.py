@@ -7,8 +7,8 @@ from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
 
 
 class SingleRun(QObject):
-    def __init__(self, parent=None, startx=0, starty=0, stopx=1, stopy=1):
-        super(SingleRun, self).__init__(parent)
+    def __init__(self, startx=0, starty=0, stopx=1, stopy=1):
+        super(SingleRun, self).__init__()
         self._startx = startx
         self._starty = starty
         self._stopx = stopx
@@ -56,10 +56,24 @@ class SingleRun(QObject):
 
 
 class RunModel(QAbstractListModel):
+    StartXRole = Qt.UserRole+1
+    StartYRole = Qt.UserRole+2
+    StopXRole = Qt.UserRole+3
+    StopYRole = Qt.UserRole+4
+
+    _roles = {StartXRole: b"startx",
+              StartYRole: b"starty",
+              StopXRole: b"stopx",
+              StopYRole: b"stopy"}
+
+
+    def roleNames(self):
+        return self._roles
+
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
-        self._runs = [SingleRun(self, 0, 0, 1, 1),
-                      SingleRun(self, 0.1, 0.9, 0.9, 0.1)]
+        self._runs = [SingleRun(0, 0, 1, 1),
+                      SingleRun(0.1, 0.9, 0.9, 0.1)]
 
     @pyqtProperty(int)
     def count(self):
@@ -69,11 +83,21 @@ class RunModel(QAbstractListModel):
         print("Row Count")
         return len(self._runs)
 
-    def data(self, index, role):
+    def data(self, index, role=Qt.DisplayRole):
         print("Data")
-        if not index.idValid():
+        if not index.isValid():
             return QVariant()
-        return QVariant(self._runs[index.row()])
+        run = self._runs[index.row()]
+        if role == self.StartXRole:
+            return run.startx
+        elif role == self.StartYRole:
+            return run.starty
+        elif role == self.StopXRole:
+            return run.stopx
+        elif role == self.StopYRole:
+            return run.stopy
+
+        return QVariant()
 
     def setData(self, index, value, role=Qt.EditRole):
         if index.isValid():
@@ -88,7 +112,7 @@ class RunModel(QAbstractListModel):
 
     @pyqtSlot(float, float, float, float)
     def append(self, startx, starty, stopx, stopy):
-        r = SingleRun(self, startx, starty, stopx, stopy)
+        r = SingleRun(startx, starty, stopx, stopy)
         self.beginInsertRows(QModelIndex(),
                              len(self._runs),
                              len(self._runs))
