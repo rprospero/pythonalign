@@ -100,8 +100,20 @@ class RunModel(QAbstractListModel):
         return QVariant()
 
     def setData(self, index, value, role=Qt.EditRole):
-        if index.isValid():
-            self._runs[index.row()] = value
+        if not index.isValid():
+            return False
+
+        if role == self.StartXRole:
+            self._runs[index.row()].startx = value
+            return True
+        elif role == self.StartYRole:
+            self._runs[index.row()].starty = value
+            return True
+        elif role == self.StopXRole:
+            self._runs[index.row()].stopx = value
+            return True
+        elif role == self.StopYRole:
+            self._runs[index.row()].stopy = value
             return True
         return False
 
