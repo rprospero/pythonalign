@@ -136,6 +136,8 @@ class RunModel(QAbstractListModel):
     def update(self, x, y):
         self._runs[-1]._stopx = x
         self._runs[-1]._stopy = y
+        i = len(self._runs) - 1
+        self.dataChanged.emit(self.index(i, 0), self.index(i, 0))
 
     @pyqtSlot(int)
     def remove(self, i):
