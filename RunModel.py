@@ -13,10 +13,7 @@ class SingleRun(QObject):
         self._starty = starty
         self._stopx = stopx
         self._stopy = stopy
-
-    def __repr__(self):
-        return "SingleRun({}, {}, {}, {})".format(
-            self.startx, self.starty, self.stopx, self.stopy)
+        self._selected = False
 
     startxChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=startxChanged)
@@ -38,6 +35,10 @@ class SingleRun(QObject):
     def stopy(self):
         return self._stopy
 
+    @pyqtProperty(bool)
+    def selected(self):
+        return self._selected
+
     @startx.setter
     def startx(self, x):
         self._startx = x
@@ -53,6 +54,10 @@ class SingleRun(QObject):
     @stopy.setter
     def stopy(self, y):
         self._stopy = y
+
+    @selected.setter
+    def selected(self, v):
+        self._selected = v
 
 
 class RunModel(QAbstractListModel):

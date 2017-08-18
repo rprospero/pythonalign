@@ -85,17 +85,21 @@ ApplicationWindow {
 			var ctx = getContext("2d")
 			ctx.reset()
 
-			ctx.lineWidth = 2;
-			ctx.strokeStyle = "red"
-			ctx.beginPath()
 			for(var i=0;i<runmodels.count;i++) {
-			    ctx.moveTo(runmodels.get(i).startx*canvas.width,
-				       runmodels.get(i).starty*canvas.height)
-			    ctx.lineTo(runmodels.get(i).stopx*canvas.width,
-				       runmodels.get(i).stopy*canvas.height)
+			    var run = runmodels.get(i)
+			    if(run.selected){
+				ctx.strokeStyle = "#00FFFF"
+			    } else {
+				ctx.strokeStyle = "red"
+			    }
+			    ctx.lineWidth = 2;
+			    ctx.beginPath()
+			    ctx.moveTo(run.startx*canvas.width,
+				       run.starty*canvas.height)
+			    ctx.lineTo(run.stopx*canvas.width,
+				       run.stopy*canvas.height)
+			    ctx.stroke()
 			}
-			//ctx.closePath()
-			ctx.stroke()
 		    }
 		}
 		MouseArea {
@@ -128,12 +132,20 @@ ApplicationWindow {
 			    run.startx = parseFloat(text);
 			    canvas.requestPaint()
 			}
+			onActiveFocusChanged: {
+			    run.selected = !run.selected
+			    canvas.requestPaint()
+			}
 		    }
 		    TextField {
 			width: parent.width/5;
 			text: run.starty.toFixed(4)
 			onTextEdited: {
 			    run.starty = parseFloat(text);
+			    canvas.requestPaint()
+			}
+			onActiveFocusChanged: {
+			    run.selected = !run.selected
 			    canvas.requestPaint()
 			}
 		    }
@@ -144,12 +156,20 @@ ApplicationWindow {
 			    run.stopx = parseFloat(text);
 			    canvas.requestPaint()
 			}
+			onActiveFocusChanged: {
+			    run.selected = !run.selected
+			    canvas.requestPaint()
+			}
 		    }
 		    TextField {
 			width: parent.width/5;
 			text: run.stopy.toFixed(4)
 			onTextEdited: {
 			    run.stopy = parseFloat(text);
+			    canvas.requestPaint()
+			}
+			onActiveFocusChanged: {
+			    run.selected = !run.selected
 			    canvas.requestPaint()
 			}
 		    }
