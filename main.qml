@@ -146,7 +146,7 @@ ApplicationWindow {
 	    }
 	    Frame {
 		id: settings
-		height: 300
+		height: recommendedHeight
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
@@ -198,6 +198,11 @@ ApplicationWindow {
 			Layout.fillWidth: true
 			text: runmodels.frameHeight
 			onTextEdited: runmodels.frameHeight = parseFloat(text)
+		    }
+		    Button {
+			text: "Save"
+			Layout.fillWidth: true
+			Layout.columnSpan: 4
 		    }
 		}
 	    }
