@@ -59,13 +59,14 @@ Frame {
 	Button {
 	    contentItem: Text {
 		id: saveButtonLabel
-		text: "Save"
+		text: "Export Script"
 		color: runmodels.valid ? "black" : "red"
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
 		elide: Text.ElideRight
 	    }
 	    Layout.fillWidth: true
+	    Layout.columnSpan: 2
 	    onClicked: {
 		if (runmodels.valid) {
 		    saveDialog.open()
@@ -74,6 +75,7 @@ Frame {
 	}
 	FileDialog {
 	    id: saveDialog
+	    nameFilters: ["Spec Macros (*.mac)"];
 	    onAccepted: {
 		runmodels.save(fileUrl)
 	    }
