@@ -202,7 +202,12 @@ ApplicationWindow {
 		    Button {
 			text: "Save"
 			Layout.fillWidth: true
-			Layout.columnSpan: 4
+			onClicked: runmodels.save()
+		    }
+		    TextField {
+			text: runmodels.scriptPath
+			Layout.fillWidth: true
+			Layout.columnSpan: 3
 		    }
 		}
 	    }

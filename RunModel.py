@@ -1,4 +1,6 @@
 import numpy as np
+from os.path import join
+from pathlib import Path
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QPointF, Qt, QModelIndex, QObject, QAbstractListModel, QVariant
 from PyQt5.QtGui import QColor, QPixmap
 from PyQt5.QtQml import qmlRegisterType, QQmlListProperty
@@ -17,6 +19,8 @@ class SingleRun(QObject):
         self._step_size = 0.1
         self._selected = False
         self._title = ""
+        self._script_path = ""
+        self._save_path = ""
 
     titleChanged = pyqtSignal(str)
     @pyqtProperty(str, notify=titleChanged)
@@ -148,6 +152,22 @@ class RunModel(QAbstractListModel):
         self._vertical_command = ""
         self._frame_width=1
         self._frame_height=1
+        self._script_path = join(str(Path.home()), "script.mac")
+
+    scriptPathChanged = pyqtSignal(str)
+    @pyqtProperty(str, notify=scriptPathChanged)
+    def scriptPath(self):
+        return self._script_path
+
+    @scriptPath.setter
+    def scriptPath(self, v):
+        self._script_path = v
+
+    @pyqtSlot()
+    def save(self):
+        with open(self._script_path, "w") as outfile:
+            outfile.write(self.script)
+
 
     frameWidthChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=frameWidthChanged)
