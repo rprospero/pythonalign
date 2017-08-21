@@ -117,7 +117,7 @@ ApplicationWindow {
 	    RunModel {
 		id: runmodels
 		horizontalCommand:  "Run a {title} scan starting at ({startx},{starty}) and continuing for {len} mm"
-		verticalCommand:  "Run a vertical scan starting at ({startx},{starty}) and continuing for {len} mm"
+		verticalCommand:  "umv sah {startx}; ccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
 		frameWidth: 25
 		frameHeight: 25
 	    }

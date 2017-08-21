@@ -14,6 +14,7 @@ class SingleRun(QObject):
         self._y = starty
         self._vertical = False
         self._length = 0
+        self._step_size = 0.1
         self._selected = False
         self._title = ""
 
@@ -109,6 +110,10 @@ class SingleRun(QObject):
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
                 title=self._title,
+                ndark=1,
+                time=0.04,
+                frameCount= round(self._length*length_scale/self._step_size),
+                sleep=0,
                 len=self._length*length_scale)
         except KeyError:
             result = "!!!!" + skeleton + "!!!! Missing Key"
