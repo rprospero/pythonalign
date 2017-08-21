@@ -26,9 +26,16 @@ class RunModel(QAbstractListModel):
         self._script_path = join(str(Path.home()), "script.mac")
 
     @pyqtSlot(str)
-    def save(self, path):
+    def export(self, path):
         with open(path[7:], "w") as outfile:
             outfile.write(self.script)
+
+    @pyqtSlot(str)
+    def save(self, path):
+        path = path[7:]
+        if path[-5:] != ".json":
+            path += ".json"
+        print(path)
 
 
     frameWidthChanged = pyqtSignal(float)

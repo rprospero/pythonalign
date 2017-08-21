@@ -58,8 +58,32 @@ Frame {
 	}
 	Button {
 	    contentItem: Text {
-		id: saveButtonLabel
 		text: "Export Script"
+		color: runmodels.valid ? "black" : "red"
+		horizontalAlignment: Text.AlignHCenter
+		verticalAlignment: Text.AlignVCenter
+		elide: Text.ElideRight
+	    }
+	    Layout.fillWidth: true
+	    Layout.columnSpan: 2
+	    onClicked: {
+		if (runmodels.valid) {
+		    exportDialog.open()
+		}
+	    }
+	    FileDialog {
+		id: exportDialog
+		title: "Export the spec macros"
+		nameFilters: ["Spec Macros (*.mac)"];
+		selectExisting: false
+		onAccepted: {
+		    runmodels.export(fileUrl)
+		}
+	    }
+	}
+	Button {
+	    contentItem: Text {
+		text: "Save Settings"
 		color: runmodels.valid ? "black" : "red"
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
@@ -72,12 +96,14 @@ Frame {
 		    saveDialog.open()
 		}
 	    }
-	}
-	FileDialog {
-	    id: saveDialog
-	    nameFilters: ["Spec Macros (*.mac)"];
-	    onAccepted: {
-		runmodels.save(fileUrl)
+	    FileDialog {
+		id: saveDialog
+		nameFilters: ["JSON files (*.json)"];
+		title: "Save the current set of runs"
+		selectExisting: false
+		onAccepted: {
+		    runmodels.save(fileUrl)
+		}
 	    }
 	}
     }
