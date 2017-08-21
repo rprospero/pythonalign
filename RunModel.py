@@ -115,10 +115,10 @@ class SingleRun(QObject):
                 frameCount= round(self._length*length_scale/self._step_size),
                 sleep=0,
                 len=self._length*length_scale)
-        except KeyError:
-            result = "!!!!" + skeleton + "!!!! Missing Key"
-        except ValueError:
-            result = "!!!!" + skeleton + "!!!! Bad format specifier"
+        except KeyError as e:
+            result = "!!!!" + skeleton + "!!!! Missing Key: " + str(e)
+        except ValueError as e:
+            result = "!!!!" + skeleton + "!!!! Bad format specifier: " + str(e)
 
         return result
 
