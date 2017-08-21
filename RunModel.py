@@ -121,7 +121,8 @@ class RunModel(QAbstractListModel):
         self._frame_width=1
         self._frame_height=1
 
-    @pyqtProperty(float)
+    frameWidthChanged = pyqtSignal(float)
+    @pyqtProperty(float, notify=frameWidthChanged)
     def frameWidth(self):
         return self._frame_width
 
@@ -130,7 +131,8 @@ class RunModel(QAbstractListModel):
         self._frame_width = x
         self.scriptChanged.emit()
 
-    @pyqtProperty(float)
+    frameHeightChanged = pyqtSignal(float)
+    @pyqtProperty(float, notify=frameHeightChanged)
     def frameHeight(self):
         return self._frame_height
 
