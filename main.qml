@@ -16,6 +16,9 @@ ApplicationWindow {
 	TabButton {
 	    text: "Script"
 	}
+	TabButton {
+	    text: "Settings"
+	}
     }
     StackLayout {
 	id: tabview
@@ -116,6 +119,8 @@ ApplicationWindow {
 	    }
 	    RunModel {
 		id: runmodels
+		horizontalCommand:  "Run a horizontal scan starting at {point} and continuing for {len} mm"
+		verticalCommand:  "Run a vertical scan starting at {point} and continuing for {len} mm"
 	    }
 	    ListView {
 		anchors.top: parent.top
@@ -193,6 +198,20 @@ ApplicationWindow {
 		    text: runmodels.script
 		    selectByKeyboard: true
 		    selectByMouse: true
+		}
+	    }
+	}
+	Item {
+	    Rectangle {
+		color: "white"
+		anchors.fill: parent
+		TextField {
+		    text: runmodels.horizontalCommand
+		    onTextEdited: runmodels.horizontalCommand = text
+		}
+		TextField {
+		    text: runmodels.verticalCommand
+		    onTextEdited: runmodels.verticalCommand = text
 		}
 	    }
 	}
