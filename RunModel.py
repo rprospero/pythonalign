@@ -63,12 +63,11 @@ class SingleRun(QObject):
     def selected(self, v):
         self._selected = v
 
-    def script_line(self):
-        skeleton = "Run a {dir} scan starting at {{point}} and continuing for {{len}} mm"
+    def script_line(self, hor, ver):
         if self._vertical:
-            skeleton = skeleton.format(dir="Vertical")
+            skeleton = ver
         else:
-            skeleton = skeleton.format(dir="Hortizontal")
+            skeleton = hor
 
         return skeleton.format(point=(self._x, self._y),
                                len=self._length)
@@ -84,6 +83,26 @@ class RunModel(QAbstractListModel):
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
         self._runs = []
+        self._horizontal_command = "{point} {len}"
+        self._vertical_command = "{point} {len}"
+
+    @pyqtProperty(str)
+    def horizontalCommand(self):
+        return self._horizontal_command
+
+    @horizontalCommand.setter
+    def horizontalCommand(self, value):
+        self._horizontal_command = value
+        self.scriptChanged.emit()
+
+    @pyqtProperty(str)
+    def verticalCommand(self):
+        return self._vertical_command
+
+    @verticalCommand.setter
+    def verticalCommand(self, value):
+        self._vertical_command = value
+        self.scriptChanged.emit()
 
     @pyqtProperty(int)
     def count(self):
@@ -124,6 +143,7 @@ class RunModel(QAbstractListModel):
                              len(self._runs))
         self._runs.append(r)
         self.endInsertRows()
+        self.scriptChanged.emit()
 
     @pyqtSlot(float, float)
     def update(self, x, y):
@@ -146,6 +166,7 @@ class RunModel(QAbstractListModel):
         self.beginRemoveRows(QModelIndex(), i, i)
         del self._runs[i]
         self.endRemoveRows()
+        self.scriptChanged.emit()
         return True
 
     @pyqtSlot(int, result=SingleRun)
@@ -155,7 +176,8 @@ class RunModel(QAbstractListModel):
     scriptChanged = pyqtSignal()
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
-        temp = "\n".join([r.script_line() for r in self._runs])
+        temp = "\n".join([r.script_line(self._horizontal_command, self._vertical_command)
+                          for r in self._runs])
         return temp
 
 
