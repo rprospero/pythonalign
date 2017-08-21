@@ -146,7 +146,7 @@ ApplicationWindow {
 	    }
 	    Rectangle {
 		id: settings
-		color: "cyan"
+		color: "#DDDDDD"
 		height: 200
 		anchors.left: parent.left
 		anchors.right: parent.right
