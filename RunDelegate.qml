@@ -15,6 +15,10 @@ GridLayout {
 	onTextEdited: {
 	    run.title = text
 	}
+	onActiveFocusChanged: {
+	    run.selected = !run.selected
+	    canvas.requestPaint()
+	}
     }
     Text {text: "Start x"}
     TextField {
