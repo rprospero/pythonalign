@@ -59,7 +59,22 @@ class SingleRun(QObject):
         else:
             self.stopyChanged.emit(y+self._length)
 
-    @selected.setter
+    @stopx.setter
+    def stopx(self, x):
+        if self._vertical:
+            self._x = x
+            self.startxChanged.emit(x)
+        else:
+            self._length = x-self._x
+
+    @stopy.setter
+    def stopy(self, y):
+        if not self._vertical:
+            self._y = y
+            self.startyChanged.emit(y)
+        else:
+            self._length = y-self._y
+
     def selected(self, v):
         self._selected = v
 
