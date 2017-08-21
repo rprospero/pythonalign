@@ -116,8 +116,8 @@ ApplicationWindow {
 	    }
 	    RunModel {
 		id: runmodels
-		horizontalCommand:  "Run a {title} scan starting at ({startx},{starty}) and continuing for {len} mm"
-		verticalCommand:  "umv sah {startx};\nccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
+		horizontalCommand:  "umv sav {starty}\nfor(i=0;i<{frameCount};i+=1)\n{{\n\ty={startx}+i*{stepSize}\n\tumv sah y\n\tccdacq_nodark {time} \"{title}\"\n}}"
+		verticalCommand:  "umv sah {startx}\nccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
 		frameWidth: 25
 		frameHeight: 25
 	    }

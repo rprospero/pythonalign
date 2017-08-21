@@ -112,6 +112,7 @@ class SingleRun(QObject):
                 title=self._title,
                 ndark=1,
                 time=0.04,
+                stepSize=self._step_size,
                 frameCount= round(self._length*length_scale/self._step_size),
                 sleep=0,
                 len=self._length*length_scale)
