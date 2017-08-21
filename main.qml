@@ -16,9 +16,6 @@ ApplicationWindow {
 	TabButton {
 	    text: "Script"
 	}
-	TabButton {
-	    text: "Settings"
-	}
     }
     StackLayout {
 	id: tabview
@@ -228,20 +225,6 @@ ApplicationWindow {
 			text: runmodels.verticalCommand
 			onTextEdited: runmodels.verticalCommand = text
 		    }
-		}
-	    }
-	}
-	Item {
-	    Rectangle {
-		color: "white"
-		anchors.fill: parent
-		TextField {
-		    text: runmodels.horizontalCommand
-		    onTextEdited: runmodels.horizontalCommand = text
-		}
-		TextField {
-		    text: runmodels.verticalCommand
-		    onTextEdited: runmodels.verticalCommand = text
 		}
 	    }
 	}
