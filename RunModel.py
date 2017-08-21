@@ -63,7 +63,7 @@ class SingleRun(QObject):
     def selected(self, v):
         self._selected = v
 
-    def script_line(self, hor, ver):
+    def script_line(self, hor, ver, width, height):
         if self._vertical:
             skeleton = ver
         else:
@@ -71,10 +71,10 @@ class SingleRun(QObject):
 
         try:
             result = skeleton.format(
-                startx=self.startx,
-                starty=self.starty,
-                stopx=self.stopx,
-                stopy=self.stopy,
+                startx=self.startx*width,
+                starty=self.starty*height,
+                stopx=self.stopx*width,
+                stopy=self.stopy*height,
                 len=self._length)
         except KeyError:
             result = "!!!!" + skeleton + "!!!! Missing Key"
@@ -207,7 +207,8 @@ class RunModel(QAbstractListModel):
     scriptChanged = pyqtSignal()
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
-        temp = "\n".join([r.script_line(self._horizontal_command, self._vertical_command)
+        temp = "\n".join([r.script_line(self._horizontal_command, self._vertical_command,
+                                        self._frame_width, self._frame_height)
                           for r in self._runs])
         return temp
 

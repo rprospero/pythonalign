@@ -118,6 +118,8 @@ ApplicationWindow {
 		id: runmodels
 		horizontalCommand:  "Run a horizontal scan starting at ({startx},{starty}) and continuing for {len} mm"
 		verticalCommand:  "Run a vertical scan starting at ({startx},{starty}) and continuing for {len} mm"
+		frameWidth: 25
+		frameHeight: 25
 	    }
 	    ListView {
 		anchors.top: parent.top
