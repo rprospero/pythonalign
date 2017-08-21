@@ -150,6 +150,8 @@ class RunModel(QAbstractListModel):
     validChanged = pyqtSignal()
     @pyqtProperty(bool, notify=validChanged)
     def valid(self):
+        if not self._runs:
+            return False
         return all([r.valid for r in self._runs])
 
 
