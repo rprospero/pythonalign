@@ -30,8 +30,12 @@ class RunModel(QAbstractListModel):
         with open(path[7:], "w") as outfile:
             outfile.write(self.script)
 
-    @pyqtSlot(str)
-    def save(self, path):
+    @pyqtProperty(str)
+    def alignmentJson(self):
+        return self._alignmentJson
+
+    @pyqtSlot(str, str)
+    def save(self, path, alignmentJson):
         path = path[7:]
         if path[-5:] != ".json":
             path += ".json"
@@ -42,7 +46,8 @@ class RunModel(QAbstractListModel):
                 "verticalCommand": self._vertical_command,
                 "frameWidth": self._frame_width,
                 "frameHeight": self._frame_height,
-                "runs": []
+                "runs": [],
+                "alignment": json.loads(alignmentJson)
             }
             json.dump(d, outfile)
 
@@ -59,6 +64,8 @@ class RunModel(QAbstractListModel):
         self._frame_width = d["frameWidth"]
         self.frameWidthChanged.emit()
         self._frame_height = d["frameHeight"]
+        self._alignmentJson = json.dumps(d["alignment"])
+
         self.frameHeightChanged.emit()
         self.validChanged.emit()
         self.scriptChanged.emit()

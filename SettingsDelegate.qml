@@ -92,6 +92,7 @@ Frame {
 		selectExisting: false
 		onAccepted: {
 		    runmodels.load(fileUrl)
+		    alignment.jsonString = runmodels.alignmentJson
 		}
 	    }
 	}
@@ -107,7 +108,7 @@ Frame {
 		title: "Save the current set of runs"
 		selectExisting: false
 		onAccepted: {
-		    runmodels.save(fileUrl)
+		    runmodels.save(fileUrl, alignment.jsonString)
 		}
 	    }
 	}

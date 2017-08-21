@@ -1,3 +1,4 @@
+import json
 import numpy as np
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QPointF
 from PyQt5.QtGui import QColor, QPixmap
@@ -56,6 +57,24 @@ class AlignData(QQuickItem):
     def p4(self): return self._p4
     @p4.setter
     def p4(self, p): self._p4 = p; self.update()
+
+    @pyqtProperty(str)
+    def jsonString(self):
+        d = {"p1": {"x": self._p1.x(), "y": self._p1.y()},
+             "p2": {"x": self._p2.x(), "y": self._p2.y()},
+             "p3": {"x": self._p3.x(), "y": self._p3.y()},
+             "p4": {"x": self._p4.x(), "y": self._p4.y()}}
+        return json.dumps(d)
+
+    @jsonString.setter
+    def jsonString(self, v):
+        d = json.loads(v)
+        self._p1 = QPointF(d["p1"]["x"], d["p1"]["y"])
+        self._p2 = QPointF(d["p2"]["x"], d["p2"]["y"])
+        self._p3 = QPointF(d["p3"]["x"], d["p3"]["y"])
+        self._p4 = QPointF(d["p4"]["x"], d["p4"]["y"])
+        self.realigned.emit()
+        self.update()
 
     def _hangle(self, b, a):
         dx = b.x() - a.x()
