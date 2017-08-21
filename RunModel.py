@@ -69,8 +69,19 @@ class SingleRun(QObject):
         else:
             skeleton = hor
 
-        return skeleton.format(point=(self._x, self._y),
-                               len=self._length)
+        try:
+            result = skeleton.format(
+                startx=self.startx,
+                starty=self.starty,
+                stopx=self.stopx,
+                stopy=self.stopy,
+                len=self._length)
+        except KeyError:
+            result = "!!!!" + skeleton + "!!!! Missing Key"
+        except ValueError:
+            result = "!!!!" + skeleton + "!!!! Bad format specifier"
+
+        return result
 
 
 class RunModel(QAbstractListModel):
@@ -83,8 +94,8 @@ class RunModel(QAbstractListModel):
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
         self._runs = []
-        self._horizontal_command = "{point} {len}"
-        self._vertical_command = "{point} {len}"
+        self._horizontal_command = ""
+        self._vertical_command = ""
 
     @pyqtProperty(str)
     def horizontalCommand(self):
