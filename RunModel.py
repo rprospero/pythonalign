@@ -25,18 +25,9 @@ class RunModel(QAbstractListModel):
         self._frame_height=1
         self._script_path = join(str(Path.home()), "script.mac")
 
-    scriptPathChanged = pyqtSignal(str)
-    @pyqtProperty(str, notify=scriptPathChanged)
-    def scriptPath(self):
-        return self._script_path
-
-    @scriptPath.setter
-    def scriptPath(self, v):
-        self._script_path = v
-
-    @pyqtSlot()
-    def save(self):
-        with open(self._script_path, "w") as outfile:
+    @pyqtSlot(str)
+    def save(self, path):
+        with open(path[7:], "w") as outfile:
             outfile.write(self.script)
 
 

@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.1
 import PythonAlign 1.0
 
 Frame {
@@ -67,15 +68,15 @@ Frame {
 	    Layout.fillWidth: true
 	    onClicked: {
 		if (runmodels.valid) {
-		    runmodels.save()
-		    saveButtonLabel.text = "Saved"
+		    saveDialog.open()
 		}
 	    }
 	}
-	TextField {
-	    text: runmodels.scriptPath
-	    Layout.fillWidth: true
-	    Layout.columnSpan: 3
+	FileDialog {
+	    id: saveDialog
+	    onAccepted: {
+		runmodels.save(fileUrl)
+	    }
 	}
     }
 }
