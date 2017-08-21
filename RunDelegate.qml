@@ -68,6 +68,15 @@ GridLayout {
 	    canvas.requestPaint()
 	}
     }
+    Text {text: "Step Size"}
+    TextField {
+	text: run.stepSize
+	onTextEdited: run.stepSize = parseFloat(text)
+	onActiveFocusChanged: {
+	    run.selected = !run.selected
+	    canvas.requestPaint()
+	}
+    }
     Button {
 	Layout.columnSpan: 4
 	Layout.fillWidth: true

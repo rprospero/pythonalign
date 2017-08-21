@@ -28,6 +28,16 @@ class SingleRun(QObject):
         self._title = v
         self._parent.scriptChanged.emit()
 
+    stepSizeChanged = pyqtSignal(float)
+    @pyqtProperty(float, notify=stepSizeChanged)
+    def stepSize(self):
+        return self._step_size
+
+    @stepSize.setter
+    def stepSize(self, x):
+        self._step_size = x
+        self._parent.scriptChanged.emit()
+
     startxChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=startxChanged)
     def startx(self):
