@@ -127,78 +127,7 @@ ApplicationWindow {
 		anchors.right: parent.right
 		width: parent.width/2
 		model: runmodels
-		delegate: Column {
-		    width: parent.width
-		    Row {
-			width: parent.width
-			TextField {
-			    width: parent.width
-			    text: run.title
-			    onTextEdited: {
-				run.title = text
-			    }
-			}
-		    }
-		    Row {
-			width: parent.width
-			TextField {
-			    width: parent.width/5;
-			    text: (run.startx*runmodels.frameWidth).toFixed(4)
-			    onTextEdited: {
-				run.startx = parseFloat(text)/runmodels.frameWidth;
-				canvas.requestPaint()
-			    }
-			    onActiveFocusChanged: {
-				run.selected = !run.selected
-				canvas.requestPaint()
-			    }
-			}
-			TextField {
-			    width: parent.width/5;
-			    text: (run.starty*runmodels.frameHeight).toFixed(4)
-			    onTextEdited: {
-				run.starty = parseFloat(text)/runmodels.frameWidth;
-				canvas.requestPaint()
-			    }
-			    onActiveFocusChanged: {
-				run.selected = !run.selected
-				canvas.requestPaint()
-			    }
-			}
-			TextField {
-			    width: parent.width/5;
-			    text: (run.stopx*runmodels.frameWidth).toFixed(4)
-			    onTextEdited: {
-				run.stopx = parseFloat(text)/runmodels.frameWidth;
-				canvas.requestPaint()
-			    }
-			    onActiveFocusChanged: {
-				run.selected = !run.selected
-				canvas.requestPaint()
-			    }
-			}
-			TextField {
-			    width: parent.width/5;
-			    text: (run.stopy*runmodels.frameHeight).toFixed(4)
-			    onTextEdited: {
-				run.stopy = parseFloat(text)/runmodels.frameWidth;
-				canvas.requestPaint()
-			    }
-			    onActiveFocusChanged: {
-				run.selected = !run.selected
-				canvas.requestPaint()
-			    }
-			}
-			Button {
-			    width: parent.width/5;
-			    text: "Delete"
-			    onClicked: {
-				runmodels.remove(index);
-				canvas.requestPaint()
-			    }
-			}
-		    }
-		}
+		delegate: RunDelegate {}
 	    }
 	}
 	Item {
