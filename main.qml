@@ -16,9 +16,6 @@ ApplicationWindow {
 	TabButton {
 	    text: "Script"
 	}
-	TabButton {
-	    text: "Settings"
-	}
     }
     StackLayout {
 	id: tabview
@@ -192,7 +189,10 @@ ApplicationWindow {
 	Item {
 	    Rectangle {
 		color: "white"
-		anchors.fill: parent
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.top: parent.top
+		height: parent.height/2
 		TextArea {
 		    anchors.fill:parent
 		    text: runmodels.script
@@ -200,11 +200,12 @@ ApplicationWindow {
 		    selectByMouse: true
 		}
 	    }
-	}
-	Item {
 	    Rectangle {
-		color: "white"
-		anchors.fill: parent
+		color: "cyan"
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.bottom: parent.bottom
+		height: parent.height/2
 		GridLayout {
 		    anchors.fill: parent
 		    columns: 2
