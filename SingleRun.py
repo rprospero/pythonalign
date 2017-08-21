@@ -20,6 +20,28 @@ class SingleRun(QObject):
         self._title = ""
         self._valid = False
 
+    @staticmethod
+    def fromJson(parent, d):
+        self = SingleRun(parent)
+        self._x = d["startx"]
+        self._y = d["starty"]
+        self._vertical = d["vertical"]
+        self._length = d["length"]
+        self._step_size = d["step_size"]
+        self._title = d["title"]
+        self._valid = d["valid"]
+        return self
+
+    def toJson(self):
+        d = {"startx": self._x,
+             "starty": self._y,
+             "vertical": self._vertical,
+             "length": self._length,
+             "step_size": self._step_size,
+             "title": self._title,
+             "valid": self._valid}
+        return d
+
     validChanged = pyqtSignal()
     @pyqtProperty(bool, notify=validChanged)
     def valid(self):
