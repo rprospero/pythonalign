@@ -9,6 +9,7 @@ from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
 class SingleRun(QObject):
     def __init__(self, parent, startx=0, starty=0):
         super(SingleRun, self).__init__(parent)
+        self._parent = parent
         self._x = startx
         self._y = starty
         self._vertical = False
@@ -50,6 +51,7 @@ class SingleRun(QObject):
             self.stopxChanged.emit(x)
         else:
             self.stopxChanged.emit(x+self._length)
+        self._parent.scriptChanged.emit()
 
     @starty.setter
     def starty(self, y):
@@ -58,6 +60,7 @@ class SingleRun(QObject):
             self.stopyChanged.emit(y)
         else:
             self.stopyChanged.emit(y+self._length)
+        self._parent.scriptChanged.emit()
 
     @stopx.setter
     def stopx(self, x):
@@ -66,6 +69,7 @@ class SingleRun(QObject):
             self.startxChanged.emit(x)
         else:
             self._length = x-self._x
+        self._parent.scriptChanged.emit()
 
     @stopy.setter
     def stopy(self, y):
@@ -74,6 +78,7 @@ class SingleRun(QObject):
             self.startyChanged.emit(y)
         else:
             self._length = y-self._y
+        self._parent.scriptChanged.emit()
 
     def selected(self, v):
         self._selected = v
