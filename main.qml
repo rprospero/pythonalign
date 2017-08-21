@@ -129,17 +129,21 @@ ApplicationWindow {
 		width: parent.width/2
 		model: runmodels
 		delegate: RunDelegate {}
+		clip: true
 	    }
 	}
 	Item {
-	    Rectangle {
-		color: "white"
+	    Flickable {
+		id: scriptFlick
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
 		anchors.bottom: settings.top
+		clip: true
+		contentHeight: scriptText.height
+		contentWidth: scriptText.width
 		TextArea {
-		    anchors.fill:parent
+		    id: scriptText
 		    text: runmodels.script
 		    selectByKeyboard: true
 		    selectByMouse: true
