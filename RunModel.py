@@ -86,8 +86,10 @@ class SingleRun(QObject):
     def script_line(self, hor, ver, width, height):
         if self._vertical:
             skeleton = ver
+            length_scale = height
         else:
             skeleton = hor
+            length_scale = width
 
         try:
             result = skeleton.format(
@@ -95,7 +97,7 @@ class SingleRun(QObject):
                 starty=self.starty*height,
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
-                len=self._length)
+                len=self._length*length_scale)
         except KeyError:
             result = "!!!!" + skeleton + "!!!! Missing Key"
         except ValueError:
