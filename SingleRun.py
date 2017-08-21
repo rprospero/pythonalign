@@ -18,6 +18,14 @@ class SingleRun(QObject):
         self._step_size = 0.1
         self._selected = False
         self._title = ""
+        self._valid = False
+
+    validChanged = pyqtSignal()
+    @pyqtProperty(bool, notify=validChanged)
+    def valid(self):
+        if not self.title or " " in self.title:
+            return False
+        return True
 
     titleChanged = pyqtSignal(str)
     @pyqtProperty(str, notify=titleChanged)
@@ -28,6 +36,7 @@ class SingleRun(QObject):
     def title(self, v):
         self._title = v
         self._parent.scriptChanged.emit()
+        self.validChanged.emit()
 
     stepSizeChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=stepSizeChanged)

@@ -7,7 +7,10 @@ GridLayout {
     id: base
     width: parent.width
     columns: 4
-    Text { text: "Title" }
+    Text {
+	text: "Title"
+	color: run.valid ? "black" : "red"
+    }
     TextField {
 	text: run.title
 	Layout.columnSpan: 3
