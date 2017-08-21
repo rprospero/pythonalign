@@ -15,6 +15,17 @@ class SingleRun(QObject):
         self._vertical = False
         self._length = 0
         self._selected = False
+        self._title = ""
+
+    titleChanged = pyqtSignal(str)
+    @pyqtProperty(str, notify=titleChanged)
+    def title(self):
+        return self._title
+
+    @title.setter
+    def title(self, v):
+        self._title = v
+        self._parent.scriptChanged.emit()
 
     startxChanged = pyqtSignal(float)
     @pyqtProperty(float, notify=startxChanged)
@@ -97,6 +108,7 @@ class SingleRun(QObject):
                 starty=self.starty*height,
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
+                title=self._title,
                 len=self._length*length_scale)
         except KeyError:
             result = "!!!!" + skeleton + "!!!! Missing Key"
