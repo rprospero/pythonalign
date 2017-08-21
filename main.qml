@@ -1,4 +1,4 @@
-import QtQuick 2.1
+import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import PythonAlign 1.0
@@ -117,7 +117,7 @@ ApplicationWindow {
 	    RunModel {
 		id: runmodels
 		horizontalCommand:  "Run a {title} scan starting at ({startx},{starty}) and continuing for {len} mm"
-		verticalCommand:  "umv sah {startx}; ccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
+		verticalCommand:  "umv sah {startx};\nccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
 		frameWidth: 25
 		frameHeight: 25
 	    }
@@ -144,10 +144,9 @@ ApplicationWindow {
 		    selectByMouse: true
 		}
 	    }
-	    Rectangle {
+	    Frame {
 		id: settings
-		color: "#DDDDDD"
-		height: 200
+		height: 300
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
@@ -155,22 +154,34 @@ ApplicationWindow {
 		    anchors.fill: parent
 		    columns: 4
 		    Text {
+			Layout.fillWidth: true
+			Layout.columnSpan: 4
 			text: "Horizontal Command"
 		    }
-		    TextField {
+		    Frame {
 			Layout.fillWidth: true
-			Layout.columnSpan: 3
-			text: runmodels.horizontalCommand
-			onTextEdited: runmodels.horizontalCommand = text
+			Layout.columnSpan: 4
+			TextEdit {
+			    anchors.fill: parent
+			    focus: true
+			    text: runmodels.horizontalCommand
+			    onEditingFinished: runmodels.horizontalCommand = text
+			}
 		    }
 		    Text {
+			Layout.fillWidth: true
+			Layout.columnSpan: 4
 			text: "Vertical Command"
 		    }
-		    TextField {
+		    Frame {
 			Layout.fillWidth: true
-			Layout.columnSpan: 3
-			text: runmodels.verticalCommand
-			onTextEdited: runmodels.verticalCommand = text
+			Layout.columnSpan: 4
+			TextEdit {
+			    anchors.fill:parent
+			    focus: true
+			    text: runmodels.verticalCommand
+			    onEditingFinished: runmodels.verticalCommand = text
+			}
 		    }
 		    Text {
 			text: "Frame Width"
