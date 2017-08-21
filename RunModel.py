@@ -249,7 +249,7 @@ class RunModel(QAbstractListModel):
     scriptChanged = pyqtSignal()
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
-        temp = "\n".join([r.script_line(self._horizontal_command, self._vertical_command,
+        temp = "\n\n".join([r.script_line(self._horizontal_command, self._vertical_command,
                                         self._frame_width, self._frame_height)
                           for r in self._runs])
         return temp
