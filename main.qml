@@ -131,9 +131,9 @@ ApplicationWindow {
 		    width: parent.width
 		    TextField {
 			width: parent.width/5;
-			text: run.startx.toFixed(4)
+			text: (run.startx*runmodels.frameWidth).toFixed(4)
 			onTextEdited: {
-			    run.startx = parseFloat(text);
+			    run.startx = parseFloat(text)/runmodels.frameWidth;
 			    canvas.requestPaint()
 			}
 			onActiveFocusChanged: {
@@ -143,9 +143,9 @@ ApplicationWindow {
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: run.starty.toFixed(4)
+			text: (run.starty*runmodels.frameHeight).toFixed(4)
 			onTextEdited: {
-			    run.starty = parseFloat(text);
+			    run.starty = parseFloat(text)/runmodels.frameWidth;
 			    canvas.requestPaint()
 			}
 			onActiveFocusChanged: {
@@ -155,9 +155,9 @@ ApplicationWindow {
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: run.stopx.toFixed(4)
+			text: (run.stopx*runmodels.frameWidth).toFixed(4)
 			onTextEdited: {
-			    run.stopx = parseFloat(text);
+			    run.stopx = parseFloat(text)/runmodels.frameWidth;
 			    canvas.requestPaint()
 			}
 			onActiveFocusChanged: {
@@ -167,9 +167,9 @@ ApplicationWindow {
 		    }
 		    TextField {
 			width: parent.width/5;
-			text: run.stopy.toFixed(4)
+			text: (run.stopy*runmodels.frameHeight).toFixed(4)
 			onTextEdited: {
-			    run.stopy = parseFloat(text);
+			    run.stopy = parseFloat(text)/runmodels.frameWidth;
 			    canvas.requestPaint()
 			}
 			onActiveFocusChanged: {
