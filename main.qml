@@ -120,7 +120,6 @@ ApplicationWindow {
 		verticalCommand:  "umv sah {startx}\nccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
 		frameWidth: 25
 		frameHeight: 25
-		onScriptChanged: settings.scriptChanged()
 	    }
 	    ListView {
 		anchors.top: parent.top

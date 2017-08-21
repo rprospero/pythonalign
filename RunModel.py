@@ -1,3 +1,4 @@
+import json
 import numpy as np
 from os.path import join
 from pathlib import Path
@@ -23,7 +24,6 @@ class RunModel(QAbstractListModel):
         self._vertical_command = ""
         self._frame_width=1
         self._frame_height=1
-        self._script_path = join(str(Path.home()), "script.mac")
 
     @pyqtSlot(str)
     def export(self, path):
@@ -36,9 +36,35 @@ class RunModel(QAbstractListModel):
         if path[-5:] != ".json":
             path += ".json"
         print(path)
+        with open(path, "w") as outfile:
+            d = {
+                "horizontalCommand": self._horizontal_command,
+                "verticalCommand": self._vertical_command,
+                "frameWidth": self._frame_width,
+                "frameHeight": self._frame_height,
+                "runs": []
+            }
+            json.dump(d, outfile)
+
+    @pyqtSlot(str)
+    def load(self, path):
+        path = path[7:]
+        if path[-5:] != ".json":
+            path += ".json"
+        print(path)
+        with open(path, "r") as infile:
+            d = json.load(infile)
+        self._horizontal_command = d["horizontalCommand"]
+        self._vertical_command = d["verticalCommand"]
+        self._frame_width = d["frameWidth"]
+        self.frameWidthChanged.emit()
+        self._frame_height = d["frameHeight"]
+        self.frameHeightChanged.emit()
+        self.validChanged.emit()
+        self.scriptChanged.emit()
 
 
-    frameWidthChanged = pyqtSignal(float)
+    frameWidthChanged = pyqtSignal()
     @pyqtProperty(float, notify=frameWidthChanged)
     def frameWidth(self):
         return self._frame_width
@@ -48,7 +74,7 @@ class RunModel(QAbstractListModel):
         self._frame_width = x
         self.scriptChanged.emit()
 
-    frameHeightChanged = pyqtSignal(float)
+    frameHeightChanged = pyqtSignal()
     @pyqtProperty(float, notify=frameHeightChanged)
     def frameHeight(self):
         return self._frame_height

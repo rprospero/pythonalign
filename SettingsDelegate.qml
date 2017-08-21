@@ -5,8 +5,6 @@ import QtQuick.Dialogs 1.1
 import PythonAlign 1.0
 
 Frame {
-    signal scriptChanged
-    onScriptChanged: saveButtonLabel.text = "Save"
     GridLayout {
 	anchors.fill: parent
 	columns: 4
@@ -82,19 +80,26 @@ Frame {
 	    }
 	}
 	Button {
-	    contentItem: Text {
-		text: "Save Settings"
-		color: runmodels.valid ? "black" : "red"
-		horizontalAlignment: Text.AlignHCenter
-		verticalAlignment: Text.AlignVCenter
-		elide: Text.ElideRight
-	    }
+	    text: "Load Settings"
 	    Layout.fillWidth: true
-	    Layout.columnSpan: 2
 	    onClicked: {
-		if (runmodels.valid) {
-		    saveDialog.open()
+		loadDialog.open()
+	    }
+	    FileDialog {
+		id: loadDialog
+		nameFilters: ["JSON files (*.json)"];
+		title: "Load a previously saved set of runs"
+		selectExisting: false
+		onAccepted: {
+		    runmodels.load(fileUrl)
 		}
+	    }
+	}
+	Button {
+	    text: "Save Settings"
+	    Layout.fillWidth: true
+	    onClicked: {
+		saveDialog.open()
 	    }
 	    FileDialog {
 		id: saveDialog
