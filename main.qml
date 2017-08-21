@@ -208,12 +208,13 @@ ApplicationWindow {
 		height: parent.height/2
 		GridLayout {
 		    anchors.fill: parent
-		    columns: 2
+		    columns: 4
 		    Text {
 			text: "Horizontal Command"
 		    }
 		    TextField {
 			Layout.fillWidth: true
+			Layout.columnSpan: 3
 			text: runmodels.horizontalCommand
 			onTextEdited: runmodels.horizontalCommand = text
 		    }
@@ -222,8 +223,25 @@ ApplicationWindow {
 		    }
 		    TextField {
 			Layout.fillWidth: true
+			Layout.columnSpan: 3
 			text: runmodels.verticalCommand
 			onTextEdited: runmodels.verticalCommand = text
+		    }
+		    Text {
+			text: "Frame Width"
+		    }
+		    TextField {
+			Layout.fillWidth: true
+			text: runmodels.frameWidth
+			onTextEdited: runmodels.frameWidth = parseFloat(text)
+		    }
+		    Text {
+			text: "Frame Height"
+		    }
+		    TextField {
+			Layout.fillWidth: true
+			text: runmodels.frameHeight
+			onTextEdited: runmodels.frameHeight = parseFloat(text)
 		    }
 		}
 	    }

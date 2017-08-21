@@ -96,6 +96,26 @@ class RunModel(QAbstractListModel):
         self._runs = []
         self._horizontal_command = ""
         self._vertical_command = ""
+        self._frame_width=1
+        self._frame_height=1
+
+    @pyqtProperty(float)
+    def frameWidth(self):
+        return self._frame_width
+
+    @frameWidth.setter
+    def frameWidth(self, x):
+        self._frame_width = x
+        self.scriptChanged.emit()
+
+    @pyqtProperty(float)
+    def frameHeight(self):
+        return self._frame_height
+
+    @frameHeight.setter
+    def frameHeight(self, x):
+        self._frame_height = x
+        self.scriptChanged.emit()
 
     @pyqtProperty(str)
     def horizontalCommand(self):
