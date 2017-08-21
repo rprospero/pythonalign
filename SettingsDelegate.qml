@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.3
 import PythonAlign 1.0
 
 Frame {
+    signal scriptChanged
+    onScriptChanged: saveButtonLabel.text = "Save"
     GridLayout {
 	anchors.fill: parent
 	columns: 4
@@ -54,9 +56,21 @@ Frame {
 	    onTextEdited: runmodels.frameHeight = parseFloat(text)
 	}
 	Button {
-	    text: "Save"
+	    contentItem: Text {
+		id: saveButtonLabel
+		text: "Save"
+		color: runmodels.valid ? "black" : "red"
+		horizontalAlignment: Text.AlignHCenter
+		verticalAlignment: Text.AlignVCenter
+		elide: Text.ElideRight
+	    }
 	    Layout.fillWidth: true
-	    onClicked: runmodels.save()
+	    onClicked: {
+		if (runmodels.valid) {
+		    runmodels.save()
+		    saveButtonLabel.text = "Saved"
+		}
+	    }
 	}
 	TextField {
 	    text: runmodels.scriptPath

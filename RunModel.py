@@ -118,6 +118,7 @@ class RunModel(QAbstractListModel):
         self._runs.append(r)
         self.endInsertRows()
         self.scriptChanged.emit()
+        self.validChanged.emit()
 
     @pyqtSlot(float, float)
     def update(self, x, y):
@@ -154,6 +155,11 @@ class RunModel(QAbstractListModel):
                                         self._frame_width, self._frame_height)
                           for r in self._runs])
         return temp
+
+    validChanged = pyqtSignal()
+    @pyqtProperty(bool, notify=validChanged)
+    def valid(self):
+        return all([r.valid for r in self._runs])
 
 
 qmlRegisterType(RunModel, "PythonAlign", 1, 0, "RunModel")
