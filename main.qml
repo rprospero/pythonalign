@@ -192,7 +192,7 @@ ApplicationWindow {
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.top: parent.top
-		height: parent.height/2
+		anchors.bottom: settings.top
 		TextArea {
 		    anchors.fill:parent
 		    text: runmodels.script
@@ -201,11 +201,12 @@ ApplicationWindow {
 		}
 	    }
 	    Rectangle {
+		id: settings
 		color: "cyan"
+		height: 200
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
-		height: parent.height/2
 		GridLayout {
 		    anchors.fill: parent
 		    columns: 4
