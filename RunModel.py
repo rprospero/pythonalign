@@ -63,6 +63,16 @@ class SingleRun(QObject):
     def selected(self, v):
         self._selected = v
 
+    def script_line(self):
+        skeleton = "Run a {dir} scan starting at {{point}} and continuing for {{len}} mm"
+        if self._vertical:
+            skeleton = skeleton.format(dir="Vertical")
+        else:
+            skeleton = skeleton.format(dir="Hortizontal")
+
+        return skeleton.format(point=(self._x, self._y),
+                               len=self._length)
+
 
 class RunModel(QAbstractListModel):
 
@@ -127,6 +137,7 @@ class RunModel(QAbstractListModel):
             self._runs[-1]._length = dy
         i = len(self._runs) - 1
         self.dataChanged.emit(self.index(i, 0), self.index(i, 0))
+        self.scriptChanged.emit()
 
     @pyqtSlot(int)
     def remove(self, i):
@@ -140,6 +151,12 @@ class RunModel(QAbstractListModel):
     @pyqtSlot(int, result=SingleRun)
     def get(self, i):
         return self._runs[i]
+
+    scriptChanged = pyqtSignal()
+    @pyqtProperty(str, notify=scriptChanged)
+    def script(self):
+        temp = "\n".join([r.script_line() for r in self._runs])
+        return temp
 
 
 qmlRegisterType(SingleRun, "PythonAlign", 1, 0, "SingleRun")

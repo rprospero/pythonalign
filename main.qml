@@ -186,8 +186,14 @@ ApplicationWindow {
 	}
 	Item {
 	    Rectangle {
-		color: "blue"
+		color: "white"
 		anchors.fill: parent
+		TextArea {
+		    anchors.fill:parent
+		    text: runmodels.script
+		    selectByKeyboard: true
+		    selectByMouse: true
+		}
 	    }
 	}
     }
