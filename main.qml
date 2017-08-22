@@ -9,6 +9,7 @@ ApplicationWindow {
 	width: parent.width
 	TabButton {
 	    text: "Alignment"
+	    onClicked: original.focus=true
 	}
 	TabButton {
 	    text: "Runs"
@@ -24,6 +25,23 @@ ApplicationWindow {
 	anchors.bottom: parent.bottom
 	width: parent.width
 	Item {
+	    Keys.onPressed: {
+		switch (event.key) {
+		case Qt.Key_Plus:
+		case Qt.Key_Equal:
+		    originzoom.xScale *= 1.1;
+		    originzoom.yScale *= 1.1;
+		    break;
+		case Qt.Key_Minus:
+		    originzoom.xScale *= 0.9;
+		    originzoom.yScale *= 0.9;
+		    break;
+		case Qt.Key_Asterisk:
+		    originzoom.xScale = 0.25;
+		    originzoom.yScale = 0.25;
+		    break;
+		}
+	    }
 	    AlignData {
 		id: alignment
 		p1: Qt.point(0.1, 0.1)
@@ -41,6 +59,7 @@ ApplicationWindow {
 		width: parent.width/2
 		contentWidth: original.width
 		contentHeight: original.height
+		focus:true
 		Image {
 		    id: original
 		    source: "./img.jpg"
@@ -76,6 +95,11 @@ ApplicationWindow {
 				}
 			    }
 			}
+		    }
+		    transform: Scale {
+			id: originzoom
+			xScale: 0.25
+			yScale: 0.25
 		    }
 		}
 	    }
