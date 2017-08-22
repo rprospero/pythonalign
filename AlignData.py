@@ -108,42 +108,4 @@ class AlignData(QQuickItem):
         base /= 4
         return QPointF(0.5, 0.5) - base
 
-    def updatePaintNode(self, oldNode, _):
-        if not oldNode:
-            node3 = QSGGeometryNode()
-            node = QSGNode()
-            node.appendChildNode(node3)
-
-            geometry = QSGGeometry(QSGGeometry.defaultAttributes_Point2D(), 5)
-            geometry.setLineWidth(2)
-            geometry.setDrawingMode(QSGGeometry.DrawLineStrip)
-            node3.setGeometry(geometry)
-            node3.setFlag(QSGNode.OwnsGeometry)
-            material = QSGFlatColorMaterial()
-            material.setColor(QColor(255, 0, 0))
-            node3.setMaterial(material)
-            node3.setFlag(QSGNode.OwnsMaterial)
-        else:
-            node = oldNode
-            geometry = node.firstChild().geometry()
-            geometry.allocate(5)
-
-        vertices = geometry.vertexDataAsPoint2D()
-
-        vertices[0].set(self._p1.x() * self.width(),
-                        self._p1.y() * self.height())
-        vertices[1].set(self._p2.x() * self.width(),
-                        self._p2.y() * self.height())
-        vertices[2].set(self._p3.x() * self.width(),
-                        self._p3.y() * self.height())
-        vertices[3].set(self._p4.x() * self.width(),
-                        self._p4.y() * self.height())
-        vertices[4].set(self._p1.x() * self.width(),
-                        self._p1.y() * self.height())
-
-        node.firstChild().markDirty(QSGNode.DirtyGeometry)
-
-        return node
-
-
 qmlRegisterType(AlignData, "PythonAlign", 1, 0, "AlignData")

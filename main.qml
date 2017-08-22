@@ -24,6 +24,14 @@ ApplicationWindow {
 	anchors.bottom: parent.bottom
 	width: parent.width
 	Item {
+	    AlignData {
+		id: alignment
+		p1: Qt.point(0.1, 0.1)
+		p2: Qt.point(0.9, 0.1)
+		p3: Qt.point(0.9, 0.9)
+		p4: Qt.point(0.1, 0.9)
+		onRealigned: othercanvas.requestPaint()
+	    }
 	    Flickable {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
@@ -180,15 +188,6 @@ ApplicationWindow {
 	    }
 	}
 	Item {
-	    AlignData {
-		id: alignment
-		anchors.fill: parent
-		p1: Qt.point(0.1, 0.1)
-		p2: Qt.point(0.9, 0.1)
-		p3: Qt.point(0.9, 0.9)
-		p4: Qt.point(0.1, 0.9)
-		onRealigned: othercanvas.requestPaint()
-	    }
 	}
     }
 }
