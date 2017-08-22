@@ -10,6 +10,8 @@ Rectangle {
     property real imgWidth
     property real imgHeight
     clip: true
+    width: Math.min(parent.width, parent.height)
+    height: Math.min(parent.width, parent.height)
     Item {
 	anchors.horizontalCenter: parent.horizontalCenter
 	anchors.verticalCenter: parent.verticalCenter
