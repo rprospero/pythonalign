@@ -20,8 +20,6 @@ Rectangle {
 	    anchors.verticalCenter: parent.verticalCenter
 	    Image {
 		id: ref
-		width: imgWidth
-		height: imgHeight
 		source: "./img.jpg"
 		fillMode: Image.PreserveAspectFit
 		anchors.horizontalCenter: parent.horizontalCenter
@@ -40,8 +38,8 @@ Rectangle {
 	    id: sizer;
 	    origin.x: ref.horizontalCenter;
 	    origin.y: ref.verticalCenter;
-	    xScale: base.scale.x;
-	    yScale: base.scale.y;
+	    xScale: base.scale.x*width/imgWidth;
+	    yScale: base.scale.y*height/imgHeight;
 	}
     }
 }
