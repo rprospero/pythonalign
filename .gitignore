@@ -3,3 +3,6 @@
 /lib
 /include
 __pycache__
+\#*
+flycheck*
+TAGS
