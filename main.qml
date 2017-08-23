@@ -44,11 +44,14 @@ ApplicationWindow {
 	    }
 	    AlignData {
 		id: alignment
-		p1: Qt.point(0.1, 0.1)
-		p2: Qt.point(0.9, 0.1)
-		p3: Qt.point(0.9, 0.9)
-		p4: Qt.point(0.1, 0.9)
+		p1: Qt.point(400, 400)
+		p2: Qt.point(2000, 400)
+		p3: Qt.point(2000, 2000)
+		p4: Qt.point(400, 2000)
 		onRealigned: othercanvas.requestPaint()
+		width: original.width
+		height: original.height
+		newsize: twisted.width
 	    }
 	    Flickable {
 		anchors.top: parent.top
@@ -71,16 +74,12 @@ ApplicationWindow {
 			    var ctx = getContext("2d")
 			    ctx.reset()
 			    ctx.strokeStyle = "red"
-			    ctx.lineWidth = 2;
+			    ctx.lineWidth = 8;
 			    ctx.beginPath()
-			    ctx.moveTo(alignment.p1.x*othercanvas.width,
-				       alignment.p1.y*othercanvas.height)
-			    ctx.lineTo(alignment.p2.x*othercanvas.width,
-				       alignment.p2.y*othercanvas.height)
-			    ctx.lineTo(alignment.p3.x*othercanvas.width,
-				       alignment.p3.y*othercanvas.height)
-			    ctx.lineTo(alignment.p4.x*othercanvas.width,
-				       alignment.p4.y*othercanvas.height)
+			    ctx.moveTo(alignment.p1.x, alignment.p1.y)
+			    ctx.lineTo(alignment.p2.x, alignment.p2.y)
+			    ctx.lineTo(alignment.p3.x, alignment.p3.y)
+			    ctx.lineTo(alignment.p4.x, alignment.p4.y)
 			    ctx.closePath()
 			    ctx.stroke()
 
@@ -88,10 +87,10 @@ ApplicationWindow {
 			MouseArea {
 			    anchors.fill: parent
 			    hoverEnabled: true
-			    onPressed: alignment.select(mouse.x/width, mouse.y/height);
+			    onPressed: alignment.select(mouse.x, mouse.y);
 			    onPositionChanged: {
 				if(mouse.buttons != 0){
-				    alignment.select(mouse.x/width, mouse.y/height)
+				    alignment.select(mouse.x, mouse.y)
 				}
 			    }
 			}

@@ -12,11 +12,14 @@ class AlignData(QQuickItem):
         super().__init__(parent)
         self.setFlag(QQuickItem.ItemHasContents, True)
         self._p1 = QPointF(0.1, 0.1)
-        self._p2 = QPointF(0.9, 0.1)
-        self._p3 = QPointF(0.9, 0.9)
-        self._p4 = QPointF(0.1, 0.9)
+        self._p2 = QPointF(100, 0.1)
+        self._p3 = QPointF(100, 100)
+        self._p4 = QPointF(0.1, 100)
         self._slope = 1.0+0.0j
         self._intercept = 0.0+0.0j
+        self._width = 1
+        self._height = 1
+        self._newsize = 1
 
         self._pixmap = QPixmap("img.jpg")
 
@@ -43,7 +46,7 @@ class AlignData(QQuickItem):
     realigned = pyqtSignal()
 
     def linreg(self):
-        ys = [0, 1.0, 1.0+1.0j, 1.0j]
+        ys = [0, self._newsize, self._newsize+self._newsize*1.0j, self._newsize*1.0j]
         xs = [self.toComplex(p) for p in
               [self._p1, self._p2, self._p3, self._p4]]
         xmean  = np.mean(xs)
@@ -58,6 +61,19 @@ class AlignData(QQuickItem):
     @staticmethod
     def toComplex(v):
         return v.x()+1j*v.y()
+
+    @pyqtProperty('qreal', notify=realigned)
+    def width(self): return self._width
+    @width.setter
+    def width(self, p): self._width = p; self.linreg()
+    @pyqtProperty('qreal', notify=realigned)
+    def height(self): return self._height
+    @height.setter
+    def height(self, p): self._height = p; self.linreg()
+    @pyqtProperty('qreal', notify=realigned)
+    def newsize(self): return self._newsize
+    @newsize.setter
+    def newsize(self, p): self._newsize = p; self.linreg()
 
     @pyqtProperty('QPointF', notify=realigned)
     def p1(self): return self._p1
@@ -105,13 +121,14 @@ class AlignData(QQuickItem):
 
     @pyqtProperty('qreal', notify=realigned)
     def scale(self):
-        print(np.abs(self._slope))
+        print("Scale:", np.abs(self._slope))
         return np.abs(self._slope)
 
     @pyqtProperty('QPointF', notify=realigned)
     def translate(self):
-        center = ((0.5 + 0.5j)-self._intercept)/self._slope
-        offset = 0.5 + 0.5j - center
+        old_center = self._newsize * (0.5 + 0.5j)
+        center = (old_center-self._intercept)/self._slope
+        offset = (self._width/2 + self._height/2*1.0j) - center
         print("Offset: ", offset)
 
         return QPointF(np.real(offset), np.imag(offset))
