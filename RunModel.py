@@ -1,12 +1,7 @@
 import json
-import numpy as np
-from os.path import join
-from pathlib import Path
-from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QPointF, Qt, QModelIndex, QObject, QAbstractListModel, QVariant
-from PyQt5.QtGui import QColor, QPixmap
-from PyQt5.QtQml import qmlRegisterType, QQmlListProperty
-from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
-    QSGFlatColorMaterial, QSGSimpleTextureNode
+from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, Qt, QModelIndex, \
+    QAbstractListModel, QVariant
+from PyQt5.QtQml import qmlRegisterType
 from SingleRun import SingleRun
 
 
@@ -22,8 +17,8 @@ class RunModel(QAbstractListModel):
         self._runs = []
         self._horizontal_command = ""
         self._vertical_command = ""
-        self._frame_width=1
-        self._frame_height=1
+        self._frame_width = 1
+        self._frame_height = 1
 
     @pyqtSlot(str)
     def export(self, path):
@@ -72,8 +67,8 @@ class RunModel(QAbstractListModel):
         self.validChanged.emit()
         self.scriptChanged.emit()
 
-
     frameWidthChanged = pyqtSignal()
+
     @pyqtProperty(float, notify=frameWidthChanged)
     def frameWidth(self):
         return self._frame_width
@@ -84,6 +79,7 @@ class RunModel(QAbstractListModel):
         self.scriptChanged.emit()
 
     frameHeightChanged = pyqtSignal()
+
     @pyqtProperty(float, notify=frameHeightChanged)
     def frameHeight(self):
         return self._frame_height
@@ -157,7 +153,7 @@ class RunModel(QAbstractListModel):
     def update(self, x, y):
         dx = x-self._runs[-1]._x
         dy = y-self._runs[-1]._y
-        if abs(dx)>abs(dy):
+        if abs(dx) > abs(dy):
             self._runs[-1]._vertical = False
             self._runs[-1]._length = dx
         else:
@@ -182,14 +178,18 @@ class RunModel(QAbstractListModel):
         return self._runs[i]
 
     scriptChanged = pyqtSignal()
+
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
-        temp = "\n\n".join([r.script_line(self._horizontal_command, self._vertical_command,
-                                        self._frame_width, self._frame_height)
-                          for r in self._runs])
+        temp = "\n\n".join([r.script_line(self._horizontal_command,
+                                          self._vertical_command,
+                                          self._frame_width,
+                                          self._frame_height)
+                            for r in self._runs])
         return temp
 
     validChanged = pyqtSignal()
+
     @pyqtProperty(bool, notify=validChanged)
     def valid(self):
         if not self._runs:

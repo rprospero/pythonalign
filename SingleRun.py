@@ -1,11 +1,6 @@
-import numpy as np
-from os.path import join
-from pathlib import Path
-from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, QPointF, Qt, QModelIndex, QObject, QAbstractListModel, QVariant
-from PyQt5.QtGui import QColor, QPixmap
-from PyQt5.QtQml import qmlRegisterType, QQmlListProperty
-from PyQt5.QtQuick import QQuickItem, QSGGeometryNode, QSGGeometry, QSGNode, \
-    QSGFlatColorMaterial, QSGSimpleTextureNode
+from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
+from PyQt5.QtQml import qmlRegisterType
+
 
 class SingleRun(QObject):
     def __init__(self, parent, startx=0, starty=0):
@@ -43,6 +38,7 @@ class SingleRun(QObject):
         return d
 
     validChanged = pyqtSignal()
+
     @pyqtProperty(bool, notify=validChanged)
     def valid(self):
         if not self.title or " " in self.title:
@@ -50,6 +46,7 @@ class SingleRun(QObject):
         return True
 
     titleChanged = pyqtSignal(str)
+
     @pyqtProperty(str, notify=titleChanged)
     def title(self):
         return self._title
@@ -62,6 +59,7 @@ class SingleRun(QObject):
         self._parent.validChanged.emit()
 
     stepSizeChanged = pyqtSignal(float)
+
     @pyqtProperty(float, notify=stepSizeChanged)
     def stepSize(self):
         return self._step_size
@@ -72,16 +70,19 @@ class SingleRun(QObject):
         self._parent.scriptChanged.emit()
 
     startxChanged = pyqtSignal(float)
+
     @pyqtProperty(float, notify=startxChanged)
     def startx(self):
         return self._x
 
     startyChanged = pyqtSignal(float)
+
     @pyqtProperty(float, notify=startyChanged)
     def starty(self):
         return self._y
 
     stopxChanged = pyqtSignal(float)
+
     @pyqtProperty(float, notify=stopxChanged)
     def stopx(self):
         if self._vertical:
@@ -89,6 +90,7 @@ class SingleRun(QObject):
         return self._x+self._length
 
     stopyChanged = pyqtSignal(float)
+
     @pyqtProperty(float, notify=stopyChanged)
     def stopy(self):
         if self._vertical:
@@ -135,6 +137,7 @@ class SingleRun(QObject):
             self._length = y-self._y
         self._parent.scriptChanged.emit()
 
+    @selected.setter
     def selected(self, v):
         self._selected = v
 
@@ -156,7 +159,7 @@ class SingleRun(QObject):
                 ndark=1,
                 time=0.04,
                 stepSize=self._step_size,
-                frameCount= round(self._length*length_scale/self._step_size),
+                frameCount=round(self._length*length_scale/self._step_size),
                 sleep=0,
                 len=self._length*length_scale)
         except KeyError as e:
