@@ -31,14 +31,12 @@ Rectangle {
 		}
 	    }
 	    transform: Rotation {
-		id: turn; origin.x: parent.horizontalCenter;
-		origin.y:parent.verticalCenter; angle: base.angle
+		id: turn;
+		angle: base.angle
 	    }
 	}
 	transform: Scale {
 	    id: sizer;
-	    origin.x: ref.horizontalCenter;
-	    origin.y: ref.verticalCenter;
 	    xScale: base.scale;
 	    yScale: base.scale;
 	}

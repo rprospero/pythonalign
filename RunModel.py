@@ -43,7 +43,6 @@ class RunModel(QAbstractListModel):
         path = path[7:]
         if path[-5:] != ".json":
             path += ".json"
-        print(path)
         with open(path, "w") as outfile:
             value = {
                 "horizontalCommand": self._horizontal_command,
@@ -61,7 +60,6 @@ class RunModel(QAbstractListModel):
         path = path[7:]
         if path[-5:] != ".json":
             path += ".json"
-        print(path)
         with open(path, "r") as infile:
             value = json.load(infile)
         self._horizontal_command = value["horizontalCommand"]

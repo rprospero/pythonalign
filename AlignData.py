@@ -173,7 +173,6 @@ class AlignData(QQuickItem):
         old_center = self._newsize * (0.5 + 0.5j)
         center = (old_center-self._intercept)/self._slope
         offset = (self._width/2 + self._height/2*1.0j) - center
-        print("Offset: ", offset)
 
         return QPointF(np.real(offset), np.imag(offset))
 
