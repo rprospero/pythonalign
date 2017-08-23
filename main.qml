@@ -115,6 +115,7 @@ ApplicationWindow {
 		    angle: alignment.angle
 		    scale: alignment.scale
 		    translation: alignment.translate
+		    anchors.verticalCenter: parent.verticalCenter
 		}
 	    }
 	}
@@ -132,6 +133,7 @@ ApplicationWindow {
 		    angle: alignment.angle
 		    scale: alignment.scale
 		    translation: alignment.translate
+		    anchors.verticalCenter: parent.verticalCenter
 		    Canvas {
 			id: canvas
 			anchors.fill: parent
