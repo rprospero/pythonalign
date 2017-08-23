@@ -38,8 +38,8 @@ Rectangle {
 	    id: sizer;
 	    origin.x: ref.horizontalCenter;
 	    origin.y: ref.verticalCenter;
-	    xScale: 1 //base.scale;
-	    yScale: 1 //base.scale;
+	    xScale: base.scale;
+	    yScale: base.scale;
 	}
     }
 }
