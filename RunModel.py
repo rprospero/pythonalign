@@ -41,7 +41,7 @@ class RunModel(QAbstractListModel):
                 "verticalCommand": self._vertical_command,
                 "frameWidth": self._frame_width,
                 "frameHeight": self._frame_height,
-                "runs": [r.toJson() for r in self._runs],
+                "runs": [r.to_json() for r in self._runs],
                 "alignment": json.loads(alignmentJson)
             }
             json.dump(d, outfile)
@@ -59,7 +59,7 @@ class RunModel(QAbstractListModel):
         self._frame_width = d["frameWidth"]
         self.frameWidthChanged.emit()
         self._frame_height = d["frameHeight"]
-        self._runs = [SingleRun.fromJson(self, r)
+        self._runs = [SingleRun.from_json(self, r)
                       for r in d["runs"]]
         self._alignmentJson = json.dumps(d["alignment"])
 
