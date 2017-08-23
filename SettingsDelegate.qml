@@ -5,6 +5,7 @@ import QtQuick.Dialogs 1.1
 import PythonAlign 1.0
 
 Frame {
+    property url image
     GridLayout {
 	anchors.fill: parent
 	columns: 4
@@ -63,7 +64,6 @@ Frame {
 		elide: Text.ElideRight
 	    }
 	    Layout.fillWidth: true
-	    Layout.columnSpan: 2
 	    onClicked: {
 		if (runmodels.valid) {
 		    exportDialog.open()
@@ -77,6 +77,17 @@ Frame {
 		onAccepted: {
 		    runmodels.export(fileUrl)
 		}
+	    }
+	}
+	Button {
+	    text: "Load Image"
+	    Layout.fillWidth: true
+	    onClicked: imageDialog.open()
+	    FileDialog {
+		id: imageDialog
+		nameFilters: ["Jpeg (*.jpg, *.jpeg, *.JPG)", "Portable Network Graphcs (*.png)"]
+		title: "Load Sample image"
+		onAccepted: image = fileUrl
 	    }
 	}
 	Button {

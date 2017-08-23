@@ -9,6 +9,7 @@ Rectangle {
     property point translation
     property real imgWidth
     property real imgHeight
+    property url image
     clip: true
     width: Math.min(parent.width, parent.height)
     height: Math.min(parent.width, parent.height)
@@ -20,7 +21,7 @@ Rectangle {
 	    anchors.verticalCenter: parent.verticalCenter
 	    Image {
 		id: ref
-		source: "./img.jpg"
+		source: image
 		fillMode: Image.PreserveAspectFit
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter

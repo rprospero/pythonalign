@@ -65,7 +65,7 @@ ApplicationWindow {
 		focus:true
 		Image {
 		    id: original
-		    source: "./img.jpg"
+		    source: settings.image
 		    fillMode: Image.Pad
 		    Canvas {
 			id: othercanvas
@@ -110,6 +110,7 @@ ApplicationWindow {
 		width: parent.width/2
 		ZoomImage {
 		    id: twisted
+		    image: settings.image
 		    imgWidth: original.width
 		    imgHeight: original.height
 		    angle: alignment.angle
@@ -128,6 +129,7 @@ ApplicationWindow {
 		width: parent.width/2
 		ZoomImage {
 		    id: canvas_image
+		    image: settings.image
 		    imgWidth: original.width
 		    imgHeight: original.height
 		    angle: alignment.angle
@@ -207,12 +209,11 @@ ApplicationWindow {
 	    }
 	    SettingsDelegate {
 		id: settings
+		image: "./img.jpg"
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 	    }
-	}
-	Item {
 	}
     }
 }
