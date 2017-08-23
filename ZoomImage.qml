@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
     id: base
-    property point scale
+    property real scale
     property real angle
     property point translation
     property real imgWidth
@@ -25,8 +25,8 @@ Rectangle {
 		anchors.horizontalCenter: parent.horizontalCenter
 		anchors.verticalCenter: parent.verticalCenter
 		transform: Translate {
-		    x:translation.x * imgHeight;
-		    y:translation.y * imgWidth;
+		    x:translation.x * imgWidth;
+		    y:translation.y * imgHeight;
 		}
 	    }
 	    transform: Rotation {
@@ -38,8 +38,8 @@ Rectangle {
 	    id: sizer;
 	    origin.x: ref.horizontalCenter;
 	    origin.y: ref.verticalCenter;
-	    xScale: base.scale.x*width/imgWidth;
-	    yScale: base.scale.y*height/imgHeight;
+	    xScale: base.scale*width/imgHeight;
+	    yScale: base.scale*height/imgWidth;
 	}
     }
 }

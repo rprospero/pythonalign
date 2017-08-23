@@ -15,6 +15,8 @@ class AlignData(QQuickItem):
         self._p2 = QPointF(0.9, 0.1)
         self._p3 = QPointF(0.9, 0.9)
         self._p4 = QPointF(0.1, 0.9)
+        self._slope = 1.0+0.0j
+        self._intercept = 0.0+0.0j
 
         self._pixmap = QPixmap("img.jpg")
 
@@ -36,27 +38,43 @@ class AlignData(QQuickItem):
         else:
             self._p4.setX(x)
             self._p4.setY(y)
-        self.realigned.emit()
-        self.update()
+        self.linreg()
 
     realigned = pyqtSignal()
+
+    def linreg(self):
+        ys = [0, 1.0, 1.0+1.0j, 1.0j]
+        xs = [self.toComplex(p) for p in
+              [self._p1, self._p2, self._p3, self._p4]]
+        xmean  = np.mean(xs)
+        ymean = np.mean(ys)
+        self._slope = np.sum((xs-xmean)*np.conj(ys-ymean))/np.sum(np.abs(xs-xmean)**2)
+        self._intercept = ymean - self._slope*xmean
+        print(np.abs(self._slope))
+        print(np.angle(self._slope))
+        print(self._intercept)
+        self.realigned.emit()
+
+    @staticmethod
+    def toComplex(v):
+        return v.x()+1j*v.y()
 
     @pyqtProperty('QPointF', notify=realigned)
     def p1(self): return self._p1
     @p1.setter
-    def p1(self, p): self._p1 = p; self.update()
+    def p1(self, p): self._p1 = p; self.linreg()
     @pyqtProperty('QPointF')
     def p2(self): return self._p2
     @p2.setter
-    def p2(self, p): self._p2 = p; self.update()
+    def p2(self, p): self._p2 = p; self.linreg()
     @pyqtProperty('QPointF')
     def p3(self): return self._p3
     @p3.setter
-    def p3(self, p): self._p3 = p; self.update()
+    def p3(self, p): self._p3 = p; self.linreg()
     @pyqtProperty('QPointF')
     def p4(self): return self._p4
     @p4.setter
-    def p4(self, p): self._p4 = p; self.update()
+    def p4(self, p): self._p4 = p; self.linreg()
 
     @pyqtProperty(str)
     def jsonString(self):
@@ -73,8 +91,7 @@ class AlignData(QQuickItem):
         self._p2 = QPointF(d["p2"]["x"], d["p2"]["y"])
         self._p3 = QPointF(d["p3"]["x"], d["p3"]["y"])
         self._p4 = QPointF(d["p4"]["x"], d["p4"]["y"])
-        self.realigned.emit()
-        self.update()
+        self.linreg()
 
     def _hangle(self, b, a):
         dx = b.x() - a.x()
@@ -83,29 +100,20 @@ class AlignData(QQuickItem):
 
     @pyqtProperty('qreal', notify=realigned)
     def angle(self):
-        a = self._hangle(self._p2, self._p1)
-        b = self._hangle(self._p3, self._p4)
-        c = self._hangle(self._p3, self._p2)-90
-        d = 90+self._hangle(self._p1, self._p4)
-        return -(a+b+c+d)/4
+        print(np.angle(self._slope)*180/np.pi)
+        return np.angle(self._slope)*180/np.pi
 
-    @pyqtProperty('QPointF', notify=realigned)
+    @pyqtProperty('qreal', notify=realigned)
     def scale(self):
-        x = (np.sqrt((self._p2.x()-self._p1.x())**2 +
-               (self._p2.y()-self._p1.y())**2) +
-             np.sqrt((self._p4.x()-self._p3.x())**2 +
-               (self._p4.y()-self._p3.y())**2))/2
-        y = (np.sqrt((self._p2.x()-self._p3.x())**2 +
-               (self._p2.y()-self._p3.y())**2) +
-             np.sqrt((self._p4.x()-self._p1.x())**2 +
-               (self._p4.y()-self._p1.y())**2))/2
-        return QPointF(1.0/x, 1.0/y)
-
+        print(np.abs(self._slope))
+        return np.abs(self._slope)
 
     @pyqtProperty('QPointF', notify=realigned)
     def translate(self):
-        base = self._p1+self._p2+self._p3+self._p4
-        base /= 4
-        return QPointF(0.5, 0.5) - base
+        center = ((0.5 + 0.5j)-self._intercept)/self._slope
+        offset = 0.5 + 0.5j - center
+        print("Offset: ", offset)
+
+        return QPointF(np.real(offset), np.imag(offset))
 
 qmlRegisterType(AlignData, "PythonAlign", 1, 0, "AlignData")
