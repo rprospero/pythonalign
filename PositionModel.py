@@ -94,6 +94,10 @@ class PositionModel(QAbstractListModel):
         self._pos.append(pos)
         self.endInsertRows()
 
+    @pyqtSlot(int, result=SinglePosition)
+    def get(self, i):
+        return self._pos[i]
+
     def rowCount(self, index=QModelIndex()):
         """The current number of positions.  This is required by QtQuick"""
         return len(self._pos)
@@ -126,6 +130,7 @@ class PositionModel(QAbstractListModel):
         if not index.isValid():
             return Qt.ItemIsEditable
         return Qt.ItemIsEnabled | Qt.ItemIsEditable
+
 
 qmlRegisterType(PositionModel, "PythonAlign", 1, 0, "PositionModel")
 qmlRegisterType(PositionModel, "PythonAlign", 1, 0, "SinglePosition")

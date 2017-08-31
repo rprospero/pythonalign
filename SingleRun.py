@@ -3,7 +3,7 @@ an individual scan on a sample
 """
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
 from PyQt5.QtQml import qmlRegisterType
-
+import PositionModel
 
 class SingleRun(QObject):
     """The class describes a single scan to be performed on the sample."""
@@ -18,7 +18,7 @@ class SingleRun(QObject):
         self._selected = False
         self._title = ""
         self._valid = False
-        self._position = ""
+        self._position = PositionModel.SinglePosition(parent)
 
     @staticmethod
     def from_json(parent, x):
@@ -68,7 +68,7 @@ class SingleRun(QObject):
 
     positionChanged = pyqtSignal()
 
-    @pyqtProperty(str, notify=positionChanged)
+    @pyqtProperty(QObject, notify=positionChanged)
     def position(self):
         """Which frame position the sample is in"""
         return self._position
@@ -202,7 +202,8 @@ class SingleRun(QObject):
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
                 title=self._title,
-                position=self._position,
+                top=self._position._top,
+                left=self._position._left,
                 ndark=1,
                 time=0.04,
                 stepSize=self._step_size,

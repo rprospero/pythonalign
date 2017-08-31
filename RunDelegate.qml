@@ -84,9 +84,8 @@ GridLayout {
     ComboBox {
     	model: positionModel
     	textRole: "display"
-	editText: run.position
 	onCurrentTextChanged: {
-	    run.position = currentText
+	    run.position = positionModel.get(currentIndex);
 	}
     }
     Button {
