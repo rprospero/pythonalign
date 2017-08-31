@@ -84,6 +84,10 @@ GridLayout {
     ComboBox {
     	model: positionModel
     	textRole: "display"
+	editText: run.position
+	onCurrentTextChanged: {
+	    run.position = currentText
+	}
     }
     Button {
 	Layout.columnSpan: 4

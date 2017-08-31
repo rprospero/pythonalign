@@ -18,6 +18,7 @@ class SingleRun(QObject):
         self._selected = False
         self._title = ""
         self._valid = False
+        self._position = ""
 
     @staticmethod
     def from_json(parent, x):
@@ -64,6 +65,21 @@ class SingleRun(QObject):
         self._parent.scriptChanged.emit()
         self.validChanged.emit()
         self._parent.validChanged.emit()
+
+    positionChanged = pyqtSignal()
+
+    @pyqtProperty(str, notify=positionChanged)
+    def position(self):
+        """Which frame position the sample is in"""
+        return self._position
+
+    @position.setter
+    def position(self, value):
+        if self._position == value:
+            return
+        self._position = value
+        self.positionChanged.emit()
+        self._parent.scriptChanged.emit()
 
     stepSizeChanged = pyqtSignal(float)
 
@@ -186,12 +202,15 @@ class SingleRun(QObject):
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
                 title=self._title,
+                position=self._position,
                 ndark=1,
                 time=0.04,
                 stepSize=self._step_size,
                 frameCount=round(self._length*length_scale/self._step_size),
                 sleep=0,
                 len=self._length*length_scale)
+        except IndexError:
+            result = "!!!!" + skeleton + "!!!! Missing Key"
         except KeyError as error:
             result = "!!!!" + skeleton + "!!!! Missing Key: " + str(error)
         except ValueError as error:
