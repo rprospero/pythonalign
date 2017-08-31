@@ -3,6 +3,7 @@
 import sys
 import AlignData
 import RunModel
+import PositionModel
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtQml import QQmlApplicationEngine
 

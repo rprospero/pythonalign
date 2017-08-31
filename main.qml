@@ -17,6 +17,9 @@ ApplicationWindow {
 	TabButton {
 	    text: "Script"
 	}
+	TabButton {
+	    text: "Positions"
+	}
     }
     StackLayout {
 	id: tabview
@@ -236,6 +239,20 @@ ApplicationWindow {
 		    alignment.jsonString = runmodels.alignmentJson
 		}
 		onSave: runmodels.save(fileUrl, alignment.jsonString)
+	    }
+	}
+	Item {
+	    PositionModel {
+		id: positionModel
+	    }
+	    ListView {
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		width: parent.width/2
+		model: positionModel
+		delegate: RunDelegate {}
+		clip: true
 	    }
 	}
     }
