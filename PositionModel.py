@@ -74,6 +74,17 @@ class PositionModel(QAbstractListModel):
         self._pos[1]._top = 15
         self._pos[1]._left = 10
 
+    @pyqtSlot(int)
+    def remove(self, i):
+        """Delete a position"""
+        if i >= len(self._pos):
+            return False
+        self.beginRemoveRows(QModelIndex(), i, i)
+        del self._pos[i]
+        self.endRemoveRows()
+        return True
+
+
     def rowCount(self, index=QModelIndex()):
         """The current number of positions.  This is required by QtQuick"""
         return len(self._pos)

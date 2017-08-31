@@ -25,4 +25,12 @@ GridLayout {
 	text: position.left
 	Layout.fillWidth: true
     }
+    Button {
+	Layout.columnSpan: 4
+	Layout.fillWidth: true
+	text: "Delete"
+	onClicked: {
+	    positionModel.remove(index);
+	}
+    }
 }
