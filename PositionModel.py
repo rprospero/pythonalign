@@ -11,7 +11,7 @@ class SinglePosition(QObject):
         self._top = 0
         self._left = 0
 
-    titleChanged = pyqtSignal(str)
+    titleChanged = pyqtSignal()
 
     @pyqtProperty(str, notify=titleChanged)
     def title(self):
@@ -25,7 +25,7 @@ class SinglePosition(QObject):
         self._title = value
         self.titleChanged.emit()
 
-    topChanged = pyqtSignal(str)
+    topChanged = pyqtSignal()
 
     @pyqtProperty(float, notify=topChanged)
     def top(self):
@@ -39,7 +39,7 @@ class SinglePosition(QObject):
         self._top = value
         self.topChanged.emit()
 
-    leftChanged = pyqtSignal(str)
+    leftChanged = pyqtSignal()
 
     @pyqtProperty(float, notify=leftChanged)
     def left(self):

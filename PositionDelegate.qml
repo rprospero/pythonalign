@@ -10,20 +10,23 @@ GridLayout {
     Text {
 	text: "Title"
     }
-    Text {
+    TextField {
 	text: position.title
 	Layout.columnSpan: 3
 	Layout.fillWidth: true
+	onTextEdited: position.title = text
     }
     Text {text: "top"}
-    Text {
-	text: position.top
+    TextField {
+	text: position.top.toFixed(4)
 	Layout.fillWidth: true
+	onTextEdited: position.top = parseFloat(text)
     }
     Text {text: "left"}
-    Text {
-	text: position.left
+    TextField {
+	text: position.left.toFixed(4)
 	Layout.fillWidth: true
+	onTextEdited: position.left = parseFloat(text)
     }
     Button {
 	Layout.columnSpan: 4
