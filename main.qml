@@ -56,7 +56,7 @@ ApplicationWindow {
 	    Flickable {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		anchors.left: anchors.right
+		anchors.left: parent.left
 		pressDelay: 2500
 		clip: true
 		width: parent.width/2

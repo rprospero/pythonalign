@@ -171,7 +171,10 @@ class AlignData(QQuickItem):
     def translate(self):
         """The position offset for the reference image"""
         old_center = self._newsize * (0.5 + 0.5j)
-        center = (old_center-self._intercept)/self._slope
+        if self._slope != 0:
+            center = (old_center-self._intercept)/self._slope
+        else:
+            center = old_center-self._intercept
         offset = (self._width/2 + self._height/2*1.0j) - center
 
         return QPointF(np.real(offset), np.imag(offset))
