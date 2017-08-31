@@ -213,6 +213,19 @@ ApplicationWindow {
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
+		horizontalCommand: runmodels.horizontalCommand
+		verticalCommand: runmodels.verticalCommand
+		frameWidth: runmodels.frameWidth
+		frameHeight: runmodels.frameHeight
+		valid: runmodels.valid
+		onHorizontalCommandChanged: runmodels.horizontalCommand = horizontalCommand
+		onVerticalCommandChanged: runmodels.verticalCommand = verticalCommand
+		onExportScript: runmodels.export(fileUrl)
+		onLoad: {
+		    runmodels.load(fileUrl)
+		    alignment.jsonString = runmodels.alignmentJson
+		}
+		onSave: runmodels.save(fileUrl, alignment.jsonString)
 	    }
 	}
     }

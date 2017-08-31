@@ -99,7 +99,9 @@ class RunModel(QAbstractListModel):
         self._frame_height = x
         self.scriptChanged.emit()
 
-    @pyqtProperty(str)
+    scriptChanged = pyqtSignal()
+
+    @pyqtProperty(str, notify=scriptChanged)
     def horizontalCommand(self):
         """The outline of the command used to perform a horizontal run"""
         return self._horizontal_command
@@ -109,7 +111,7 @@ class RunModel(QAbstractListModel):
         self._horizontal_command = value
         self.scriptChanged.emit()
 
-    @pyqtProperty(str)
+    @pyqtProperty(str, notify=scriptChanged)
     def verticalCommand(self):
         """The outline of the command used to perform a vertical run"""
         return self._vertical_command
@@ -197,8 +199,6 @@ class RunModel(QAbstractListModel):
     def get(self, i):
         """Access a single run."""
         return self._runs[i]
-
-    scriptChanged = pyqtSignal()
 
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
