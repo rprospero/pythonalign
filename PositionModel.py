@@ -55,7 +55,10 @@ class SinglePosition(QObject):
 
 class PositionModel(QAbstractListModel):
 
-    _roles = {Qt.UserRole: b"position"}
+    _roles = {
+        Qt.UserRole: b"position",
+        Qt.DisplayRole: b"display"
+    }
 
     def roleNames(self):
         """The names of the roles performed by the model.
@@ -82,6 +85,8 @@ class PositionModel(QAbstractListModel):
         pos = self._pos[index.row()]
         if role == Qt.UserRole:
             return pos
+        elif role == Qt.DisplayRole:
+            return pos.title
 
         return QVariant()
 

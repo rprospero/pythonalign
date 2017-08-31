@@ -80,6 +80,11 @@ GridLayout {
 	    canvas.requestPaint()
 	}
     }
+    Text {text: "Position"}
+    ComboBox {
+    	model: positionModel
+    	textRole: "display"
+    }
     Button {
 	Layout.columnSpan: 4
 	Layout.fillWidth: true
