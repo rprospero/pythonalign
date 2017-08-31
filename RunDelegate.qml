@@ -83,7 +83,7 @@ GridLayout {
     	model: positionModel
     	textRole: "display"
 	onCurrentTextChanged: {
-	    run.position = positionModel.get(currentIndex);
+	    if(currentIndex >= 0){run.position = positionModel.get(currentIndex);}
 	}
     }
     Button {

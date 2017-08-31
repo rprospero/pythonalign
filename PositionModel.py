@@ -11,6 +11,19 @@ class SinglePosition(QObject):
         self._top = 0
         self._left = 0
 
+    def to_dict(self):
+        return {"title": self._title,
+                "top": self._top,
+                "left": self._left}
+
+    @staticmethod
+    def from_dict(parent, value):
+        self = SinglePosition(parent)
+        self._title = value["title"]
+        self._top = value["top"]
+        self._left = value["left"]
+        return self
+
     titleChanged = pyqtSignal()
 
     @pyqtProperty(str, notify=titleChanged)
@@ -73,6 +86,20 @@ class PositionModel(QAbstractListModel):
         self._pos[1]._title = "Quux"
         self._pos[1]._top = 15
         self._pos[1]._left = 10
+
+    def to_dict(self):
+        return [p.to_dict() for p in self._pos]
+
+    def from_dict(self, value):
+        self.beginRemoveRows(QModelIndex(),0,len(self._pos)-1)
+        self.endRemoveRows()
+
+        if value:
+            self.beginInsertRows(QModelIndex(), 0, len(value)-1)
+            self._pos = [SinglePosition.from_dict(self, r)
+                          for r in value]
+            self.endInsertRows()
+            self.dataChanged.emit(QModelIndex(), QModelIndex())
 
     @pyqtSlot(int)
     def remove(self, i):

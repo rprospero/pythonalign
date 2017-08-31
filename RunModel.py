@@ -32,8 +32,8 @@ class RunModel(QAbstractListModel):
         with open(path[7:], "w") as outfile:
             outfile.write(self.script)
 
-    @pyqtSlot(str, QObject)
-    def save(self, path, alignment):
+    @pyqtSlot(str, QObject, QObject)
+    def save(self, path, alignment, positions):
         """Save the current state to a file"""
         path = path[7:]
         if path[-5:] != ".json":
@@ -45,12 +45,13 @@ class RunModel(QAbstractListModel):
                 "frameWidth": self._frame_width,
                 "frameHeight": self._frame_height,
                 "runs": [r.to_json() for r in self._runs],
-                "alignment": json.loads(alignment.to_json())
+                "alignment": alignment.to_dict(),
+                "positions": positions.to_dict()
             }
             json.dump(value, outfile)
 
-    @pyqtSlot(str, QObject)
-    def load(self, path, alignment):
+    @pyqtSlot(str, QObject, QObject)
+    def load(self, path, alignment, positions):
         """Read the state from a file"""
         path = path[7:]
         if path[-5:] != ".json":
@@ -73,6 +74,7 @@ class RunModel(QAbstractListModel):
             self.endInsertRows()
 
         alignment.from_dict(value["alignment"])
+        positions.from_dict(value["positions"])
 
         self.frameHeightChanged.emit()
         self.validChanged.emit()

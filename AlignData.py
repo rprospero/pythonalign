@@ -139,13 +139,12 @@ class AlignData(QQuickItem):
         self._p4 = p
         self.linreg()
 
-    def to_json(self):
+    def to_dict(self):
         """A JSON serialisation of the object's current state"""
-        value = {"p1": {"x": self._p1.x(), "y": self._p1.y()},
-                 "p2": {"x": self._p2.x(), "y": self._p2.y()},
-                 "p3": {"x": self._p3.x(), "y": self._p3.y()},
-                 "p4": {"x": self._p4.x(), "y": self._p4.y()}}
-        return json.dumps(value)
+        return {"p1": {"x": self._p1.x(), "y": self._p1.y()},
+                "p2": {"x": self._p2.x(), "y": self._p2.y()},
+                "p3": {"x": self._p3.x(), "y": self._p3.y()},
+                "p4": {"x": self._p4.x(), "y": self._p4.y()}}
 
     def from_dict(self, value):
         self._p1 = QPointF(value["p1"]["x"], value["p1"]["y"])

@@ -254,8 +254,8 @@ ApplicationWindow {
 		}
 
 		onExportScript: runmodels.export(fileUrl)
-		onLoad: runmodels.load(fileUrl, alignment)
-		onSave: runmodels.save(fileUrl, alignment)
+		onLoad: runmodels.load(fileUrl, alignment, positionModel)
+		onSave: runmodels.save(fileUrl, alignment, positionModel)
 	    }
 	}
     }
