@@ -67,8 +67,17 @@ class RunModel(QAbstractListModel):
         self._frame_width = value["frameWidth"]
         self.frameWidthChanged.emit()
         self._frame_height = value["frameHeight"]
-        self._runs = [SingleRun.from_json(self, r)
-                      for r in value["runs"]]
+
+        self.beginRemoveRows(QModelIndex(),0,len(self._runs)-1)
+        self.endRemoveRows()
+
+        if value["runs"]:
+            self.beginInsertRows(QModelIndex(), 0, len(value["runs"])-1)
+            self._runs = [SingleRun.from_json(self, r)
+                          for r in value["runs"]]
+            self.endInsertRows()
+
+
         self._alignment_json = json.dumps(value["alignment"])
 
         self.frameHeightChanged.emit()
