@@ -17,9 +17,6 @@ ApplicationWindow {
 	TabButton {
 	    text: "Script"
 	}
-	TabButton {
-	    text: "Positions"
-	}
     }
     StackLayout {
 	id: tabview
@@ -125,6 +122,7 @@ ApplicationWindow {
 	}
 	Item {
 	    Rectangle {
+		id: canvas_rectangle
 		color: "cyan"
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
@@ -186,10 +184,32 @@ ApplicationWindow {
 	    ListView {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		anchors.right: parent.right
-		width: parent.width/2
+		anchors.right: positionView.left
+		anchors.left: canvas_rectangle.right
 		model: runmodels
 		delegate: RunDelegate {}
+		clip: true
+	    }
+	    PositionModel {
+		id: positionModel
+	    }
+	    Button {
+		id: addPosButton
+		text: "Add Position"
+		anchors.top: parent.top
+		anchors.right: parent.right
+		onClicked: {
+		    positionModel.append()
+		}
+	    }
+	    ListView {
+		id: positionView
+		anchors.top: addPosButton.bottom
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		width: parent.width/4
+		model: positionModel
+		delegate: PositionDelegate {}
 		clip: true
 	    }
 	}
@@ -239,30 +259,6 @@ ApplicationWindow {
 		    alignment.jsonString = runmodels.alignmentJson
 		}
 		onSave: runmodels.save(fileUrl, alignment.jsonString)
-	    }
-	}
-	Item {
-	    PositionModel {
-		id: positionModel
-	    }
-	    Button {
-		id: addPosButton
-		text: "Add Position"
-		width: parent.width/4
-		anchors.top: parent.top
-		anchors.right: parent.right
-		onClicked: {
-		    positionModel.append()
-		}
-	    }
-	    ListView {
-		anchors.top: addPosButton.bottom
-		anchors.bottom: parent.bottom
-		anchors.right: parent.right
-		width: parent.width/4
-		model: positionModel
-		delegate: PositionDelegate {}
-		clip: true
 	    }
 	}
     }

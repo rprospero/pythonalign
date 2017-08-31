@@ -6,15 +6,13 @@ import PythonAlign 1.0
 GridLayout {
     id: base
     width: parent.width
-    columns: 4
+    columns: 2
     Text {
 	text: "Title"
 	color: run.valid ? "black" : "red"
     }
     TextField {
 	text: run.title
-	Layout.columnSpan: 3
-	Layout.fillWidth: true
 	onTextEdited: {
 	    run.title = text
 	}
@@ -89,8 +87,7 @@ GridLayout {
 	}
     }
     Button {
-	Layout.columnSpan: 4
-	Layout.fillWidth: true
+	Layout.columnSpan: 2
 	text: "Delete"
 	onClicked: {
 	    runmodels.remove(index);
