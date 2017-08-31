@@ -84,6 +84,15 @@ class PositionModel(QAbstractListModel):
         self.endRemoveRows()
         return True
 
+    @pyqtSlot()
+    def append(self):
+        """Add a new position"""
+        pos = SinglePosition(self)
+        self.beginInsertRows(QModelIndex(),
+                             len(self._pos),
+                             len(self._pos))
+        self._pos.append(pos)
+        self.endInsertRows()
 
     def rowCount(self, index=QModelIndex()):
         """The current number of positions.  This is required by QtQuick"""

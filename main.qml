@@ -245,8 +245,18 @@ ApplicationWindow {
 	    PositionModel {
 		id: positionModel
 	    }
-	    ListView {
+	    Button {
+		id: addPosButton
+		text: "Add Position"
+		width: parent.width/4
 		anchors.top: parent.top
+		anchors.right: parent.right
+		onClicked: {
+		    positionModel.append()
+		}
+	    }
+	    ListView {
+		anchors.top: addPosButton.bottom
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
 		width: parent.width/4
