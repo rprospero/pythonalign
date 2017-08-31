@@ -218,8 +218,18 @@ ApplicationWindow {
 		frameWidth: runmodels.frameWidth
 		frameHeight: runmodels.frameHeight
 		valid: runmodels.valid
-		onHorizontalCommandChanged: runmodels.horizontalCommand = horizontalCommand
-		onVerticalCommandChanged: runmodels.verticalCommand = verticalCommand
+
+		Binding {
+		    target: runmodels;
+		    property: "horizontalCommand";
+		    value: settings.horizontalCommand
+		}
+		Binding {
+		    target: runmodels;
+		    property: "verticalCommand";
+		    value: settings.verticalCommand
+		}
+
 		onExportScript: runmodels.export(fileUrl)
 		onLoad: {
 		    runmodels.load(fileUrl)
