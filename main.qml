@@ -254,11 +254,8 @@ ApplicationWindow {
 		}
 
 		onExportScript: runmodels.export(fileUrl)
-		onLoad: {
-		    runmodels.load(fileUrl)
-		    alignment.jsonString = runmodels.alignmentJson
-		}
-		onSave: runmodels.save(fileUrl, alignment.jsonString)
+		onLoad: runmodels.load(fileUrl, alignment)
+		onSave: runmodels.save(fileUrl, alignment)
 	    }
 	}
     }

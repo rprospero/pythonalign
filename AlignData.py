@@ -139,8 +139,7 @@ class AlignData(QQuickItem):
         self._p4 = p
         self.linreg()
 
-    @pyqtProperty(str)
-    def jsonString(self):
+    def to_json(self):
         """A JSON serialisation of the object's current state"""
         value = {"p1": {"x": self._p1.x(), "y": self._p1.y()},
                  "p2": {"x": self._p2.x(), "y": self._p2.y()},
@@ -148,9 +147,7 @@ class AlignData(QQuickItem):
                  "p4": {"x": self._p4.x(), "y": self._p4.y()}}
         return json.dumps(value)
 
-    @jsonString.setter
-    def jsonString(self, value):
-        value = json.loads(value)
+    def from_dict(self, value):
         self._p1 = QPointF(value["p1"]["x"], value["p1"]["y"])
         self._p2 = QPointF(value["p2"]["x"], value["p2"]["y"])
         self._p3 = QPointF(value["p3"]["x"], value["p3"]["y"])
