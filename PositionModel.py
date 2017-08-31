@@ -8,6 +8,8 @@ class SinglePosition(QObject):
         super(SinglePosition, self).__init__(parent)
         self._parent = parent
         self._title = ""
+        self._top = 0
+        self._left = 0
 
     titleChanged = pyqtSignal(str)
 
@@ -23,10 +25,37 @@ class SinglePosition(QObject):
         self._title = value
         self.titleChanged.emit()
 
+    topChanged = pyqtSignal(str)
+
+    @pyqtProperty(float, notify=topChanged)
+    def top(self):
+        """The coordinate of the frame's top"""
+        return self._top
+
+    @top.setter
+    def top(self, value):
+        if self._top == value:
+            return
+        self._top = value
+        self.topChanged.emit()
+
+    leftChanged = pyqtSignal(str)
+
+    @pyqtProperty(float, notify=leftChanged)
+    def left(self):
+        """The coordinate of the frame's left"""
+        return self._left
+
+    @left.setter
+    def left(self, value):
+        if self._left == value:
+            return
+        self._left = value
+        self.leftChanged.emit()
 
 class PositionModel(QAbstractListModel):
 
-    _roles = {Qt.UserRole: b"run"}
+    _roles = {Qt.UserRole: b"position"}
 
     def roleNames(self):
         """The names of the roles performed by the model.
@@ -36,8 +65,11 @@ class PositionModel(QAbstractListModel):
 
     def __init__(self, parent=None):
         super(PositionModel, self).__init__(parent)
-        self._pos = [SinglePosition(self)]
+        self._pos = [SinglePosition(self), SinglePosition(self)]
         self._pos[0]._title = "Foo"
+        self._pos[1]._title = "Quux"
+        self._pos[1]._top = 15
+        self._pos[1]._left = 10
 
     def rowCount(self, index=QModelIndex()):
         """The current number of positions.  This is required by QtQuick"""

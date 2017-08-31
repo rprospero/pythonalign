@@ -6,9 +6,23 @@ import PythonAlign 1.0
 GridLayout {
     id: base
     width: parent.width
-    columns: 2
+    columns: 4
     Text {
 	text: "Title"
-	color: run.valid ? "black" : "red"
+    }
+    Text {
+	text: position.title
+	Layout.columnSpan: 3
+	Layout.fillWidth: true
+    }
+    Text {text: "top"}
+    Text {
+	text: position.top
+	Layout.fillWidth: true
+    }
+    Text {text: "left"}
+    Text {
+	text: position.left
+	Layout.fillWidth: true
     }
 }

@@ -249,9 +249,9 @@ ApplicationWindow {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
-		width: parent.width/2
+		width: parent.width/4
 		model: positionModel
-		delegate: RunDelegate {}
+		delegate: PositionDelegate {}
 		clip: true
 	    }
 	}
