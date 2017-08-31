@@ -29,7 +29,7 @@ Frame {
 		anchors.fill: parent
 		focus: true
 		text: horizontalCommand
-		onEditingFinished: horizontalCommand = text
+		onTextChanged: horizontalCommand = text
 	    }
 	}
 	Text {
@@ -44,7 +44,7 @@ Frame {
 		anchors.fill:parent
 		focus: true
 		text: verticalCommand
-		onEditingFinished: verticalCommand = text
+		onTextChanged: verticalCommand = text
 	    }
 	}
 	Text {
