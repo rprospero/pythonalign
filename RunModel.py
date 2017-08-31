@@ -117,6 +117,8 @@ class RunModel(QAbstractListModel):
 
     @horizontalCommand.setter
     def horizontalCommand(self, value):
+        if value == self._horizontal_command:
+            return
         self._horizontal_command = value
         self.scriptChanged.emit()
 
@@ -127,6 +129,8 @@ class RunModel(QAbstractListModel):
 
     @verticalCommand.setter
     def verticalCommand(self, value):
+        if value == self._vertical_command:
+            return
         self._vertical_command = value
         self.scriptChanged.emit()
 
