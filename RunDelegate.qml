@@ -80,6 +80,11 @@ GridLayout {
 	    canvas.requestPaint()
 	}
     }
+    Text {text: "Angles"}
+    TextField {
+	text: run.angles
+	onTextEdited: run.angles = text
+    }
     Button {
 	Layout.columnSpan: 4
 	Layout.fillWidth: true

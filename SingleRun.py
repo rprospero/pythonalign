@@ -18,6 +18,7 @@ class SingleRun(QObject):
         self._selected = False
         self._title = ""
         self._valid = False
+        self._angles = []
 
     @staticmethod
     def from_json(parent, x):
@@ -30,6 +31,7 @@ class SingleRun(QObject):
         self._step_size = x["step_size"]  # pylint: disable=W0212
         self._title = x["title"]  # pylint: disable=W0212
         self._valid = x["valid"]  # pylint: disable=W0212
+        self._angles =x["angles"]
         return self
 
     def to_json(self):
@@ -40,6 +42,7 @@ class SingleRun(QObject):
                 "length": self._length,
                 "step_size": self._step_size,
                 "title": self._title,
+                "angles": self._angles,
                 "valid": self._valid}
 
     validChanged = pyqtSignal()
@@ -64,6 +67,21 @@ class SingleRun(QObject):
         self._parent.scriptChanged.emit()
         self.validChanged.emit()
         self._parent.validChanged.emit()
+
+    anglesChanged = pyqtSignal()
+
+    @pyqtProperty(str, notify=anglesChanged)
+    def angles(self):
+        """A comma delimited string of angles"""
+        return ",".join(map(str, self._angles))
+
+    @angles.setter
+    def angles(self, x):
+        try:
+            self._angles = [float(angle) for angle in x.split(",")]
+        except ValueError:
+            pass
+
 
     stepSizeChanged = pyqtSignal(float)
 
@@ -186,6 +204,7 @@ class SingleRun(QObject):
                 stopx=self.stopx*width,
                 stopy=self.stopy*height,
                 title=self._title,
+                angle=self._angles,
                 ndark=1,
                 time=0.04,
                 stepSize=self._step_size,
