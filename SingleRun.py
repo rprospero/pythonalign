@@ -197,27 +197,29 @@ class SingleRun(QObject):
             skeleton = hor
             length_scale = width
 
-        try:
-            result = skeleton.format(
-                startx=self.startx*width,
-                starty=self.starty*height,
-                stopx=self.stopx*width,
-                stopy=self.stopy*height,
-                title=self._title,
-                angle=self._angles,
-                ndark=1,
-                time=0.04,
-                stepSize=self._step_size,
-                frameCount=round(self._length*length_scale/self._step_size),
-                sleep=0,
-                len=self._length*length_scale)
-        except KeyError as error:
-            result = "!!!!" + skeleton + "!!!! Missing Key: " + str(error)
-        except ValueError as error:
-            result = "!!!!" + skeleton + "!!!! Bad format specifier: " \
-                     + str(error)
+        result = []
+        for angle in self._angles:
+            try:
+                result.append(skeleton.format(
+                    startx=self.startx*width,
+                    starty=self.starty*height,
+                    stopx=self.stopx*width,
+                    stopy=self.stopy*height,
+                    title=self._title,
+                    angle=angle,
+                    ndark=1,
+                    time=0.04,
+                    stepSize=self._step_size,
+                    frameCount=round(self._length*length_scale/self._step_size),
+                    sleep=0,
+                    len=self._length*length_scale))
+            except KeyError as error:
+                result.append("!!!!" + skeleton + "!!!! Missing Key: " + str(error))
+            except ValueError as error:
+                result.append( "!!!!" + skeleton + "!!!! Bad format specifier: " \
+                               + str(error))
 
-        return result
+        return "\n\n".join(result)
 
 
 qmlRegisterType(SingleRun, "PythonAlign", 1, 0, "SingleRun")
