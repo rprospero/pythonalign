@@ -176,6 +176,7 @@ ApplicationWindow {
 	    }
 	    RunModel {
 		id: runmodels
+		angleCommand: "umv sar {angle:0.2f}"
 		horizontalCommand:  "umv sav {starty}\nfor(i=0;i<{frameCount};i+=1)\n{{\n\ty={startx}+i*{stepSize}\n\tumv sah y\n\tccdacq_nodark {time} \"{title}\"\n}}"
 		verticalCommand:  "umv sah {startx}\nccdtrans sav {starty} {stopy} {frameCount} {time} {sleep} \"{title}\" {ndark} 1"
 		frameWidth: 25
