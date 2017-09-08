@@ -9,6 +9,7 @@ Frame {
     signal load(url fileUrl)
     signal save(url fileUrl)
     property url image
+    property string angleCommand
     property string horizontalCommand
     property string verticalCommand
     property real frameWidth
@@ -17,6 +18,24 @@ Frame {
     GridLayout {
 	anchors.fill: parent
 	columns: 4
+	Text {
+	    Layout.fillWidth: true
+	    Layout.columnSpan: 4
+	    text: "Angle Header Command"
+	}
+	Frame {
+	    Layout.fillWidth: true
+	    Layout.columnSpan: 4
+	    TextEdit {
+		anchors.fill: parent
+		focus: true
+		text: angleCommand
+		onTextChanged: {
+		    angleCommand = text
+		    console.log(angleCommand)
+		}
+	    }
+	}
 	Text {
 	    Layout.fillWidth: true
 	    Layout.columnSpan: 4

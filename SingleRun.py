@@ -188,7 +188,7 @@ class SingleRun(QObject):
     def selected(self, value):
         self._selected = value
 
-    def script_line(self, hor, ver, width, height):
+    def script_line(self, angle, hor, ver, width, height):
         """Turn the run into a command for the script file.
         Parameters
         ----------
@@ -212,6 +212,8 @@ class SingleRun(QObject):
         else:
             skeleton = hor
             length_scale = width
+
+        skeleton = angle + "\n\n" + skeleton
 
         result = []
         for angle in self._angles:

@@ -20,6 +20,7 @@ class RunModel(QAbstractListModel):
     def __init__(self, parent=None):
         super(RunModel, self).__init__(parent)
         self._runs = []
+        self._angle_command = ""
         self._horizontal_command = ""
         self._vertical_command = ""
         self._frame_width = 1
@@ -40,6 +41,7 @@ class RunModel(QAbstractListModel):
             path += ".json"
         with open(path, "w") as outfile:
             value = {
+                "angleCommand": self._angle_command,
                 "horizontalCommand": self._horizontal_command,
                 "verticalCommand": self._vertical_command,
                 "frameWidth": self._frame_width,
@@ -58,6 +60,7 @@ class RunModel(QAbstractListModel):
             path += ".json"
         with open(path, "r") as infile:
             value = json.load(infile)
+        self._angle_command = value["angleCommand"]
         self._horizontal_command = value["horizontalCommand"]
         self._vertical_command = value["verticalCommand"]
         self._frame_width = value["frameWidth"]
@@ -105,6 +108,19 @@ class RunModel(QAbstractListModel):
         self.scriptChanged.emit()
 
     scriptChanged = pyqtSignal()
+
+    @pyqtProperty(str, notify=scriptChanged)
+    def angleCommand(self):
+        """The outline of the command used to perform a angle run"""
+        return self._angle_command
+
+    @angleCommand.setter
+    def angleCommand(self, value):
+        print("Set angle command")
+        if value == self._angle_command:
+            return
+        self._angle_command = value
+        self.scriptChanged.emit()
 
     @pyqtProperty(str, notify=scriptChanged)
     def horizontalCommand(self):
@@ -212,10 +228,12 @@ class RunModel(QAbstractListModel):
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):
         """The instrument script the performs the requested runs"""
-        temp = "\n\n".join([r.script_line(self._horizontal_command,
-                                          self._vertical_command,
-                                          self._frame_width,
-                                          self._frame_height)
+        temp = "\n\n".join([r.script_line(
+            self._angle_command,
+            self._horizontal_command,
+            self._vertical_command,
+            self._frame_width,
+            self._frame_height)
                             for r in self._runs])
         return temp
 

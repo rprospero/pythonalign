@@ -236,12 +236,18 @@ ApplicationWindow {
 		anchors.top: parent.top
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
+		angleCommand: runmodels.angleCommand
 		horizontalCommand: runmodels.horizontalCommand
 		verticalCommand: runmodels.verticalCommand
 		frameWidth: runmodels.frameWidth
 		frameHeight: runmodels.frameHeight
 		valid: runmodels.valid
 
+		Binding {
+		    target: runmodels;
+		    property: "angleCommand";
+		    value: settings.angleCommand
+		}
 		Binding {
 		    target: runmodels;
 		    property: "horizontalCommand";
