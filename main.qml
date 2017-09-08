@@ -217,9 +217,9 @@ ApplicationWindow {
 	    Flickable {
 		id: scriptFlick
 		anchors.left: parent.left
-		anchors.right: parent.right
+		anchors.right: settings.left
 		anchors.top: parent.top
-		anchors.bottom: settings.top
+		anchors.bottom: parent.bottom
 		clip: true
 		contentHeight: scriptText.height
 		contentWidth: scriptText.width
@@ -233,7 +233,7 @@ ApplicationWindow {
 	    SettingsDelegate {
 		id: settings
 		image: "./img.jpg"
-		anchors.left: parent.left
+		anchors.top: parent.top
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		horizontalCommand: runmodels.horizontalCommand
