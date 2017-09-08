@@ -5,7 +5,15 @@ import QtQuick.Dialogs 1.1
 import PythonAlign 1.0
 
 Frame {
+    signal exportScript(url fileUrl)
+    signal load(url fileUrl)
+    signal save(url fileUrl)
     property url image
+    property string horizontalCommand
+    property string verticalCommand
+    property real frameWidth
+    property real frameHeight
+    property bool valid
     GridLayout {
 	anchors.fill: parent
 	columns: 4
@@ -20,8 +28,8 @@ Frame {
 	    TextEdit {
 		anchors.fill: parent
 		focus: true
-		text: runmodels.horizontalCommand
-		onEditingFinished: runmodels.horizontalCommand = text
+		text: horizontalCommand
+		onTextChanged: horizontalCommand = text
 	    }
 	}
 	Text {
@@ -35,8 +43,8 @@ Frame {
 	    TextEdit {
 		anchors.fill:parent
 		focus: true
-		text: runmodels.verticalCommand
-		onEditingFinished: runmodels.verticalCommand = text
+		text: verticalCommand
+		onTextChanged: verticalCommand = text
 	    }
 	}
 	Text {
@@ -44,28 +52,28 @@ Frame {
 	}
 	TextField {
 	    Layout.fillWidth: true
-	    text: runmodels.frameWidth
-	    onTextEdited: runmodels.frameWidth = parseFloat(text)
+	    text: frameWidth
+	    onTextEdited: frameWidth = parseFloat(text)
 	}
 	Text {
 	    text: "Frame Height"
 	}
 	TextField {
 	    Layout.fillWidth: true
-	    text: runmodels.frameHeight
-	    onTextEdited: runmodels.frameHeight = parseFloat(text)
+	    text: frameHeight
+	    onTextEdited: frameHeight = parseFloat(text)
 	}
 	Button {
 	    contentItem: Text {
 		text: "Export Script"
-		color: runmodels.valid ? "black" : "red"
+		color: valid ? "black" : "red"
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
 		elide: Text.ElideRight
 	    }
 	    Layout.fillWidth: true
 	    onClicked: {
-		if (runmodels.valid) {
+		if (valid) {
 		    exportDialog.open()
 		}
 	    }
@@ -74,9 +82,7 @@ Frame {
 		title: "Export the spec macros"
 		nameFilters: ["Spec Macros (*.mac)"];
 		selectExisting: false
-		onAccepted: {
-		    runmodels.export(fileUrl)
-		}
+		onAccepted: exportScript(fileUrl)
 	    }
 	}
 	Button {
@@ -101,10 +107,7 @@ Frame {
 		nameFilters: ["JSON files (*.json)"];
 		title: "Load a previously saved set of runs"
 		selectExisting: false
-		onAccepted: {
-		    runmodels.load(fileUrl)
-		    alignment.jsonString = runmodels.alignmentJson
-		}
+		onAccepted: load(fileUrl)
 	    }
 	}
 	Button {
@@ -118,9 +121,7 @@ Frame {
 		nameFilters: ["JSON files (*.json)"];
 		title: "Save the current set of runs"
 		selectExisting: false
-		onAccepted: {
-		    runmodels.save(fileUrl, alignment.jsonString)
-		}
+		onAccepted: save(fileUrl)
 	    }
 	}
     }

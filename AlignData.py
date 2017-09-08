@@ -139,18 +139,14 @@ class AlignData(QQuickItem):
         self._p4 = p
         self.linreg()
 
-    @pyqtProperty(str)
-    def jsonString(self):
+    def to_dict(self):
         """A JSON serialisation of the object's current state"""
-        value = {"p1": {"x": self._p1.x(), "y": self._p1.y()},
-                 "p2": {"x": self._p2.x(), "y": self._p2.y()},
-                 "p3": {"x": self._p3.x(), "y": self._p3.y()},
-                 "p4": {"x": self._p4.x(), "y": self._p4.y()}}
-        return json.dumps(value)
+        return {"p1": {"x": self._p1.x(), "y": self._p1.y()},
+                "p2": {"x": self._p2.x(), "y": self._p2.y()},
+                "p3": {"x": self._p3.x(), "y": self._p3.y()},
+                "p4": {"x": self._p4.x(), "y": self._p4.y()}}
 
-    @jsonString.setter
-    def jsonString(self, value):
-        value = json.loads(value)
+    def from_dict(self, value):
         self._p1 = QPointF(value["p1"]["x"], value["p1"]["y"])
         self._p2 = QPointF(value["p2"]["x"], value["p2"]["y"])
         self._p3 = QPointF(value["p3"]["x"], value["p3"]["y"])
@@ -171,7 +167,10 @@ class AlignData(QQuickItem):
     def translate(self):
         """The position offset for the reference image"""
         old_center = self._newsize * (0.5 + 0.5j)
-        center = (old_center-self._intercept)/self._slope
+        if self._slope != 0:
+            center = (old_center-self._intercept)/self._slope
+        else:
+            center = old_center-self._intercept
         offset = (self._width/2 + self._height/2*1.0j) - center
 
         return QPointF(np.real(offset), np.imag(offset))

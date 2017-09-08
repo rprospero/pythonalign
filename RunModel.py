@@ -1,7 +1,7 @@
 """This module holds the QML type for managing a set of runs"""
 import json
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, pyqtSlot, Qt, QModelIndex, \
-    QAbstractListModel, QVariant
+    QAbstractListModel, QVariant, QObject
 from PyQt5.QtQml import qmlRegisterType
 from SingleRun import SingleRun
 
@@ -32,13 +32,8 @@ class RunModel(QAbstractListModel):
         with open(path[7:], "w") as outfile:
             outfile.write(self.script)
 
-    @pyqtProperty(str)
-    def alignmentJson(self):
-        """A JSON string serialising the current state"""
-        return self._alignment_json
-
-    @pyqtSlot(str, str)
-    def save(self, path, alignmentJson):
+    @pyqtSlot(str, QObject, QObject)
+    def save(self, path, alignment, positions):
         """Save the current state to a file"""
         path = path[7:]
         if path[-5:] != ".json":
@@ -50,12 +45,13 @@ class RunModel(QAbstractListModel):
                 "frameWidth": self._frame_width,
                 "frameHeight": self._frame_height,
                 "runs": [r.to_json() for r in self._runs],
-                "alignment": json.loads(alignmentJson)
+                "alignment": alignment.to_dict(),
+                "positions": positions.to_dict()
             }
             json.dump(value, outfile)
 
-    @pyqtSlot(str)
-    def load(self, path):
+    @pyqtSlot(str, QObject, QObject)
+    def load(self, path, alignment, positions):
         """Read the state from a file"""
         path = path[7:]
         if path[-5:] != ".json":
@@ -67,9 +63,18 @@ class RunModel(QAbstractListModel):
         self._frame_width = value["frameWidth"]
         self.frameWidthChanged.emit()
         self._frame_height = value["frameHeight"]
-        self._runs = [SingleRun.from_json(self, r)
-                      for r in value["runs"]]
-        self._alignment_json = json.dumps(value["alignment"])
+
+        self.beginRemoveRows(QModelIndex(),0,len(self._runs)-1)
+        self.endRemoveRows()
+
+        if value["runs"]:
+            self.beginInsertRows(QModelIndex(), 0, len(value["runs"])-1)
+            self._runs = [SingleRun.from_json(self, r)
+                          for r in value["runs"]]
+            self.endInsertRows()
+
+        alignment.from_dict(value["alignment"])
+        positions.from_dict(value["positions"])
 
         self.frameHeightChanged.emit()
         self.validChanged.emit()
@@ -99,23 +104,29 @@ class RunModel(QAbstractListModel):
         self._frame_height = x
         self.scriptChanged.emit()
 
-    @pyqtProperty(str)
+    scriptChanged = pyqtSignal()
+
+    @pyqtProperty(str, notify=scriptChanged)
     def horizontalCommand(self):
         """The outline of the command used to perform a horizontal run"""
         return self._horizontal_command
 
     @horizontalCommand.setter
     def horizontalCommand(self, value):
+        if value == self._horizontal_command:
+            return
         self._horizontal_command = value
         self.scriptChanged.emit()
 
-    @pyqtProperty(str)
+    @pyqtProperty(str, notify=scriptChanged)
     def verticalCommand(self):
         """The outline of the command used to perform a vertical run"""
         return self._vertical_command
 
     @verticalCommand.setter
     def verticalCommand(self, value):
+        if value == self._vertical_command:
+            return
         self._vertical_command = value
         self.scriptChanged.emit()
 
@@ -197,8 +208,6 @@ class RunModel(QAbstractListModel):
     def get(self, i):
         """Access a single run."""
         return self._runs[i]
-
-    scriptChanged = pyqtSignal()
 
     @pyqtProperty(str, notify=scriptChanged)
     def script(self):

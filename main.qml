@@ -56,7 +56,7 @@ ApplicationWindow {
 	    Flickable {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		anchors.left: anchors.right
+		anchors.left: parent.left
 		pressDelay: 2500
 		clip: true
 		width: parent.width/2
@@ -122,6 +122,7 @@ ApplicationWindow {
 	}
 	Item {
 	    Rectangle {
+		id: canvas_rectangle
 		color: "cyan"
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
@@ -183,10 +184,32 @@ ApplicationWindow {
 	    ListView {
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		anchors.right: parent.right
-		width: parent.width/2
+		anchors.right: positionView.left
+		anchors.left: canvas_rectangle.right
 		model: runmodels
 		delegate: RunDelegate {}
+		clip: true
+	    }
+	    PositionModel {
+		id: positionModel
+	    }
+	    Button {
+		id: addPosButton
+		text: "Add Position"
+		anchors.top: parent.top
+		anchors.right: parent.right
+		onClicked: {
+		    positionModel.append()
+		}
+	    }
+	    ListView {
+		id: positionView
+		anchors.top: addPosButton.bottom
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		width: parent.width/4
+		model: positionModel
+		delegate: PositionDelegate {}
 		clip: true
 	    }
 	}
@@ -213,6 +236,26 @@ ApplicationWindow {
 		anchors.left: parent.left
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
+		horizontalCommand: runmodels.horizontalCommand
+		verticalCommand: runmodels.verticalCommand
+		frameWidth: runmodels.frameWidth
+		frameHeight: runmodels.frameHeight
+		valid: runmodels.valid
+
+		Binding {
+		    target: runmodels;
+		    property: "horizontalCommand";
+		    value: settings.horizontalCommand
+		}
+		Binding {
+		    target: runmodels;
+		    property: "verticalCommand";
+		    value: settings.verticalCommand
+		}
+
+		onExportScript: runmodels.export(fileUrl)
+		onLoad: runmodels.load(fileUrl, alignment, positionModel)
+		onSave: runmodels.save(fileUrl, alignment, positionModel)
 	    }
 	}
     }

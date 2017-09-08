@@ -3,7 +3,7 @@ an individual scan on a sample
 """
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
 from PyQt5.QtQml import qmlRegisterType
-
+import PositionModel
 
 class SingleRun(QObject):
     """The class describes a single scan to be performed on the sample."""
@@ -19,6 +19,7 @@ class SingleRun(QObject):
         self._title = ""
         self._valid = False
         self._angles = []
+        self._position = PositionModel.SinglePosition(parent)
 
     @staticmethod
     def from_json(parent, x):
@@ -82,6 +83,20 @@ class SingleRun(QObject):
         except ValueError:
             pass
 
+    positionChanged = pyqtSignal()
+
+    @pyqtProperty(QObject, notify=positionChanged)
+    def position(self):
+        """Which frame position the sample is in"""
+        return self._position
+
+    @position.setter
+    def position(self, value):
+        if self._position == value:
+            return
+        self._position = value
+        self.positionChanged.emit()
+        self._parent.scriptChanged.emit()
 
     stepSizeChanged = pyqtSignal(float)
 
@@ -207,12 +222,16 @@ class SingleRun(QObject):
                     stopy=self.stopy*height,
                     title=self._title,
                     angle=angle,
+                    top=self._position._top,
+                    left=self._position._left,
                     ndark=1,
                     time=0.04,
                     stepSize=self._step_size,
                     frameCount=round(self._length*length_scale/self._step_size),
                     sleep=0,
                     len=self._length*length_scale))
+            except IndexError:
+                result.append("!!!!" + skeleton + "!!!! Missing Key")
             except KeyError as error:
                 result.append("!!!!" + skeleton + "!!!! Missing Key: " + str(error))
             except ValueError as error:
