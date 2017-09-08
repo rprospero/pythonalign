@@ -80,6 +80,7 @@ class SingleRun(QObject):
     def angles(self, x):
         try:
             self._angles = [float(angle) for angle in x.split(",")]
+            self._parent.scriptChanged.emit()
         except ValueError:
             pass
 
