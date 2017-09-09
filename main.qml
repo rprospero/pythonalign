@@ -240,6 +240,7 @@ ApplicationWindow {
 		angleCommand: runmodels.angleCommand
 		horizontalCommand: runmodels.horizontalCommand
 		verticalCommand: runmodels.verticalCommand
+		origin: runmodels.origin
 		frameWidth: runmodels.frameWidth
 		frameHeight: runmodels.frameHeight
 		valid: runmodels.valid
@@ -258,6 +259,11 @@ ApplicationWindow {
 		    target: runmodels;
 		    property: "verticalCommand";
 		    value: settings.verticalCommand
+		}
+		Binding {
+		    target: runmodels;
+		    property: "origin";
+		    value: settings.origin
 		}
 
 		onExportScript: runmodels.export(fileUrl)

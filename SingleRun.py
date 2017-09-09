@@ -4,6 +4,10 @@ an individual scan on a sample
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QObject
 from PyQt5.QtQml import qmlRegisterType
 import PositionModel
+from math import pi, cos
+
+def xadjust(pos, origin, angle):
+    return origin + (pos-origin)*cos(angle*pi/180)
 
 class SingleRun(QObject):
     """The class describes a single scan to be performed on the sample."""
@@ -188,7 +192,7 @@ class SingleRun(QObject):
     def selected(self, value):
         self._selected = value
 
-    def script_line(self, angle, hor, ver, width, height):
+    def script_line(self, angle, hor, ver, origin, width, height):
         """Turn the run into a command for the script file.
         Parameters
         ----------
@@ -219,9 +223,9 @@ class SingleRun(QObject):
         for angle in self._angles:
             try:
                 result.append(skeleton.format(
-                    startx=self.startx*width,
+                    startx=xadjust(self.startx*width, origin, angle),
                     starty=self.starty*height,
-                    stopx=self.stopx*width,
+                    stopx=xadjust(self.stopx*width, origin, angle),
                     stopy=self.stopy*height,
                     title=self._title,
                     angle=angle,
@@ -229,7 +233,7 @@ class SingleRun(QObject):
                     left=self._position._left,
                     ndark=1,
                     time=0.04,
-                    stepSize=self._step_size,
+                    stepSize=self._step_size * cos(angle*pi/180),
                     frameCount=round(self._length*length_scale/self._step_size),
                     sleep=0,
                     len=self._length*length_scale))

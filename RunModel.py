@@ -23,6 +23,7 @@ class RunModel(QAbstractListModel):
         self._angle_command = ""
         self._horizontal_command = ""
         self._vertical_command = ""
+        self._origin = 0
         self._frame_width = 1
         self._frame_height = 1
         self._alignment_json = ""
@@ -44,6 +45,7 @@ class RunModel(QAbstractListModel):
                 "angleCommand": self._angle_command,
                 "horizontalCommand": self._horizontal_command,
                 "verticalCommand": self._vertical_command,
+                "origin": self._origin,
                 "frameWidth": self._frame_width,
                 "frameHeight": self._frame_height,
                 "runs": [r.to_json() for r in self._runs],
@@ -66,6 +68,7 @@ class RunModel(QAbstractListModel):
         self._frame_width = value["frameWidth"]
         self.frameWidthChanged.emit()
         self._frame_height = value["frameHeight"]
+        self._origin = value["origin"]
 
         self.beginRemoveRows(QModelIndex(),0,len(self._runs)-1)
         self.endRemoveRows()
@@ -81,6 +84,20 @@ class RunModel(QAbstractListModel):
 
         self.frameHeightChanged.emit()
         self.validChanged.emit()
+        self.scriptChanged.emit()
+
+    originChanged = pyqtSignal()
+
+    @pyqtProperty(float, notify=originChanged)
+    def origin(self):
+        """The horizontal center of rotation."""
+        return self._origin
+
+    @origin.setter
+    def origin(self, x):
+        if x != x:
+            return
+        self._origin = x
         self.scriptChanged.emit()
 
     frameWidthChanged = pyqtSignal()
@@ -232,6 +249,7 @@ class RunModel(QAbstractListModel):
             self._angle_command,
             self._horizontal_command,
             self._vertical_command,
+            self._origin,
             self._frame_width,
             self._frame_height)
                             for r in self._runs])

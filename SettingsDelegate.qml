@@ -14,6 +14,7 @@ Frame {
     property string verticalCommand
     property real frameWidth
     property real frameHeight
+    property real origin
     property bool valid
     GridLayout {
 	anchors.fill: parent
@@ -25,6 +26,7 @@ Frame {
 	}
 	Frame {
 	    Layout.fillWidth: true
+	    Layout.fillHeight: true
 	    Layout.columnSpan: 4
 	    TextEdit {
 		anchors.fill: parent
@@ -43,6 +45,7 @@ Frame {
 	}
 	Frame {
 	    Layout.fillWidth: true
+	    Layout.fillHeight: true
 	    Layout.columnSpan: 4
 	    TextEdit {
 		anchors.fill: parent
@@ -58,6 +61,7 @@ Frame {
 	}
 	Frame {
 	    Layout.fillWidth: true
+	    Layout.fillHeight: true
 	    Layout.columnSpan: 4
 	    TextEdit {
 		anchors.fill:parent
@@ -72,7 +76,12 @@ Frame {
 	TextField {
 	    Layout.fillWidth: true
 	    text: frameWidth
-	    onTextEdited: frameWidth = parseFloat(text)
+	    onTextEdited: {
+		var temp = parseFloat(text)
+		if(!isNaN(temp)) {
+		    frameWidth = temp
+		}
+	    }
 	}
 	Text {
 	    text: "Frame Height"
@@ -80,7 +89,26 @@ Frame {
 	TextField {
 	    Layout.fillWidth: true
 	    text: frameHeight
-	    onTextEdited: frameHeight = parseFloat(text)
+	    onTextEdited: {
+		var temp = parseFloat(text)
+		if(!isNaN(temp)) {
+		    frameHeight = temp
+		}
+	    }
+	}
+	Text {
+	    text: "Horizontal Origin"
+	}
+	TextField {
+	    Layout.fillWidth: true
+	    text: origin
+	    Layout.columnSpan: 3
+	    onTextEdited: {
+		var temp = parseFloat(text)
+		if(!isNaN(temp)) {
+		    origin = temp
+		}
+	    }
 	}
 	Button {
 	    contentItem: Text {
