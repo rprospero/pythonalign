@@ -187,9 +187,11 @@ class RunModel(QAbstractListModel):
         """Create a new run starting at the given coordinates"""
         if self._runs:
             angles = self._runs[-1]._angles
+            pos = self._runs._position
         else:
             angles = [0]
-        run = SingleRun(self, startx, starty, angles)
+            ps = None
+        run = SingleRun(self, startx, starty, angles=angles, position=pos)
         self.beginInsertRows(QModelIndex(),
                              len(self._runs),
                              len(self._runs))

@@ -7,8 +7,10 @@ import PositionModel
 
 class SingleRun(QObject):
     """The class describes a single scan to be performed on the sample."""
-    def __init__(self, parent, startx=0, starty=0, angles=[0]):
+    def __init__(self, parent, startx=0, starty=0, angles=[0], position=None):
         super(SingleRun, self).__init__(parent)
+        if not position:
+            position = PositionModel.SinglePosition(parent)
         self._parent = parent
         self._x = startx
         self._y = starty
@@ -19,7 +21,7 @@ class SingleRun(QObject):
         self._title = ""
         self._valid = False
         self._angles = angles
-        self._position = PositionModel.SinglePosition(parent)
+        self._position = position
 
     @staticmethod
     def from_json(parent, x):
