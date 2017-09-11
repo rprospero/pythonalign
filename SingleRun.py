@@ -7,18 +7,18 @@ import PositionModel
 
 class SingleRun(QObject):
     """The class describes a single scan to be performed on the sample."""
-    def __init__(self, parent, startx=0, starty=0):
+    def __init__(self, parent, startx=0, starty=0, angles=[0]):
         super(SingleRun, self).__init__(parent)
         self._parent = parent
         self._x = startx
         self._y = starty
         self._vertical = False
         self._length = 0
-        self._step_size = 0.1
+        self._step_size = 0.5
         self._selected = False
         self._title = ""
         self._valid = False
-        self._angles = []
+        self._angles = angles
         self._position = PositionModel.SinglePosition(parent)
 
     @staticmethod

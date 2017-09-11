@@ -185,7 +185,11 @@ class RunModel(QAbstractListModel):
     @pyqtSlot(float, float)
     def append(self, startx, starty):
         """Create a new run starting at the given coordinates"""
-        run = SingleRun(self, startx, starty)
+        if self._runs:
+            angles = self._runs[-1]._angles
+        else:
+            angles = [0]
+        run = SingleRun(self, startx, starty, angles)
         self.beginInsertRows(QModelIndex(),
                              len(self._runs),
                              len(self._runs))
