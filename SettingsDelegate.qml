@@ -140,6 +140,7 @@ Frame {
 		id: imageDialog
 		nameFilters: ["Jpeg (*.jpg, *.jpeg, *.JPG)", "Portable Network Graphcs (*.png)"]
 		title: "Load Sample image"
+		selectExisting: true
 		onAccepted: image = fileUrl
 	    }
 	}
@@ -153,7 +154,7 @@ Frame {
 		id: loadDialog
 		nameFilters: ["JSON files (*.json)"];
 		title: "Load a previously saved set of runs"
-		selectExisting: false
+		selectExisting: true
 		onAccepted: load(fileUrl)
 	    }
 	}
