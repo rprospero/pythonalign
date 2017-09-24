@@ -39,7 +39,7 @@ class SingleRun(QObject):
         self._title = x["title"]  # pylint: disable=W0212
         self._valid = x["valid"]  # pylint: disable=W0212
         self._angles = x["angles"]  # pylint: disable=W0212
-        self._position = SinglePosition.from_dict(x["position"])  # pylint: disable=W0212
+        self._position = PositionModel.SinglePosition.from_dict(parent, x["position"])  # pylint: disable=W0212
         return self
 
     def to_json(self):
