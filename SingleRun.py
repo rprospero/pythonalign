@@ -227,14 +227,12 @@ class SingleRun(QObject):
         for angle in self._angles:
             try:
                 result.append(skeleton.format(
-                    startx=xadjust(self.startx*width, origin, angle),
-                    starty=self.starty*height,
-                    stopx=xadjust(self.stopx*width, origin, angle),
-                    stopy=self.stopy*height,
+                    startx=xadjust(self.startx*width+self._position._left, origin, angle),
+                    starty=self.starty*height+self._position._top,
+                    stopx=xadjust(self.stopx*width+self._position._left, origin, angle),
+                    stopy=self.stopy*height+self._position._top,
                     title=self._title,
                     angle=angle,
-                    top=self._position._top,
-                    left=self._position._left,
                     ndark=1,
                     time=0.04,
                     stepSize=self._step_size * cos(angle*pi/180),
