@@ -31,6 +31,8 @@ class RunModel(QAbstractListModel):
     @pyqtSlot(str)
     def export(self, path):
         """Save the instrument script to a file"""
+        if path[0] == "/" and path[2] == ":":
+            path = path[1:] # Windows fix
         with open(path[7:], "w") as outfile:
             outfile.write(self.script)
 
@@ -40,6 +42,8 @@ class RunModel(QAbstractListModel):
         path = path[7:]
         if path[-5:] != ".json":
             path += ".json"
+        if path[0] == "/" and path[2] == ":":
+            path = path[1:] # Windows fix
         with open(path, "w") as outfile:
             value = {
                 "angleCommand": self._angle_command,
@@ -60,6 +64,8 @@ class RunModel(QAbstractListModel):
         path = path[7:]
         if path[-5:] != ".json":
             path += ".json"
+        if path[0] == "/" and path[2] == ":":
+            path = path[1:] # Windows fix
         with open(path, "r") as infile:
             value = json.load(infile)
         self._angle_command = value["angleCommand"]
