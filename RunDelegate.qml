@@ -82,6 +82,7 @@ GridLayout {
     ComboBox {
 	model: positionModel
 	textRole: "display"
+	currentIndex: positionModel.getTitle(run.position.title)
 	onCurrentTextChanged: {
 	    if(currentIndex >= 0){run.position = positionModel.get(currentIndex);}
 	}

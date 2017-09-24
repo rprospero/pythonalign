@@ -125,6 +125,15 @@ class PositionModel(QAbstractListModel):
     def get(self, i):
         return self._pos[i]
 
+    @pyqtSlot(str, result=int)
+    def getTitle(self, text):
+        results = [x for x in enumerate(self._pos)
+                   if x[1].title == text]
+        if results:
+            return results[0][0]
+        else:
+            return -1
+
     def rowCount(self, index=QModelIndex()):
         """The current number of positions.  This is required by QtQuick"""
         return len(self._pos)
