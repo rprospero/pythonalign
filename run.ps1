@@ -1,2 +1,2 @@
-Scripts/activate.ps1
+.\Scripts\activate.ps1
 python3 main.py
