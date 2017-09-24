@@ -38,7 +38,8 @@ class SingleRun(QObject):
         self._step_size = x["step_size"]  # pylint: disable=W0212
         self._title = x["title"]  # pylint: disable=W0212
         self._valid = x["valid"]  # pylint: disable=W0212
-        self._angles =x["angles"]
+        self._angles = x["angles"]  # pylint: disable=W0212
+        self._position = x["position"]  # pylint: disable=W0212
         return self
 
     def to_json(self):
@@ -50,6 +51,7 @@ class SingleRun(QObject):
                 "step_size": self._step_size,
                 "title": self._title,
                 "angles": self._angles,
+                "position":self._position,
                 "valid": self._valid}
 
     validChanged = pyqtSignal()
