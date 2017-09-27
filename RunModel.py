@@ -31,6 +31,7 @@ class RunModel(QAbstractListModel):
     @pyqtSlot(str)
     def export(self, path):
         """Save the instrument script to a file"""
+        path = path[7:]
         if path[0] == "/" and path[2] == ":":
             path = path[1:] # Windows fix
         with open(path, "w") as outfile:
