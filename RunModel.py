@@ -33,7 +33,7 @@ class RunModel(QAbstractListModel):
         """Save the instrument script to a file"""
         if path[0] == "/" and path[2] == ":":
             path = path[1:] # Windows fix
-        with open(path[7:], "w") as outfile:
+        with open(path, "w") as outfile:
             outfile.write(self.script)
 
     @pyqtSlot(str, QObject, QObject)
