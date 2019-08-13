@@ -29,3 +29,9 @@ void RunModel::setVerticalCommand(QString w) {
   if (w == m_verticalCommand) return;
   m_verticalCommand = w;
 }
+
+QString RunModel::angleCommand() { return m_angleCommand; }
+void RunModel::setAngleCommand(QString w) {
+  if (w == m_angleCommand) return;
+  m_angleCommand = w;
+}

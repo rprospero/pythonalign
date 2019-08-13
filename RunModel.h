@@ -13,6 +13,7 @@ class RunModel : public QObject
   Q_PROPERTY(double frameWidth READ frameWidth WRITE setFrameWidth NOTIFY frameChanged)
   Q_PROPERTY(QString horizontalCommand READ horizontalCommand WRITE setHorizontalCommand NOTIFY scriptChanged)
   Q_PROPERTY(QString verticalCommand READ verticalCommand WRITE setVerticalCommand NOTIFY scriptChanged)
+  Q_PROPERTY(QString angleCommand READ angleCommand WRITE setAngleCommand NOTIFY scriptChanged)
 
  public:
   explicit RunModel(QObject *parent = nullptr);
@@ -26,6 +27,8 @@ class RunModel : public QObject
   void setVerticalCommand(QString w);
   QString horizontalCommand();
   void setHorizontalCommand(QString w);
+  QString angleCommand();
+  void setAngleCommand(QString w);
 
  signals:
   void scriptChanged();
@@ -35,6 +38,7 @@ class RunModel : public QObject
   double m_frameWidth;
   QString m_horizontalCommand;
   QString m_verticalCommand;
+  QString m_angleCommand;
 };
 
 #endif
