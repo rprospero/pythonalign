@@ -6,3 +6,4 @@ __pycache__
 \#*
 flycheck*
 TAGS
+/moc_AlignData.cpp
